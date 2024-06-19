@@ -364,8 +364,9 @@ export const Home: React.FC = () => {
             <LazyImage
               src={item.file}
               alt={`Pandemia Painting ${item.id}`}
-              width="100%"
-              height="auto"
+              width="auto"
+              minWidth="150px"
+              height="150px"
               onClick={() => navigate(`/gallery/pandemia/${item.id}`)}
             />
           </Grid>
