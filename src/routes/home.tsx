@@ -20,13 +20,26 @@ interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   onClick?: (event: React.MouseEvent<HTMLImageElement>) => void;
+  minWidth?: string;
 }
 
-const LazyImage: React.FC<LazyImageProps> = ({ src, alt, onClick, ...props }) => {
+const LazyImage: React.FC<LazyImageProps> = ({
+  src,
+  alt,
+  onClick,
+  minWidth,
+  ...props
+}) => {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
       {!loaded && (
         <Skeleton
           variant="rectangular"
@@ -38,7 +51,7 @@ const LazyImage: React.FC<LazyImageProps> = ({ src, alt, onClick, ...props }) =>
       <img
         src={src}
         alt={alt}
-        style={{ display: loaded ? "block" : "none", cursor: "pointer" }}
+        style={{ display: loaded ? "block" : "none", cursor: "pointer", minWidth: minWidth }}
         onLoad={() => setLoaded(true)}
         onClick={onClick}
         {...props}
@@ -306,8 +319,9 @@ export const Home: React.FC = () => {
             <LazyImage
               src={item.file}
               alt={`Raices Painting ${item.id}`}
-              width="100%"
-              height="auto"
+              width="auto"
+              minWidth="250px"
+              height="250px"
               onClick={() => navigate(`/gallery/raices/${item.id}`)}
             />
           </Grid>
