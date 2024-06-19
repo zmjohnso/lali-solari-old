@@ -20,14 +20,12 @@ interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   onClick?: (event: React.MouseEvent<HTMLImageElement>) => void;
-  minWidth?: string;
 }
 
 const LazyImage: React.FC<LazyImageProps> = ({
   src,
   alt,
   onClick,
-  minWidth,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false);
@@ -51,7 +49,10 @@ const LazyImage: React.FC<LazyImageProps> = ({
       <img
         src={src}
         alt={alt}
-        style={{ display: loaded ? "block" : "none", cursor: "pointer", minWidth: minWidth }}
+        style={{
+          display: loaded ? "block" : "none",
+          cursor: "pointer",
+        }}
         onLoad={() => setLoaded(true)}
         onClick={onClick}
         {...props}
@@ -65,8 +66,10 @@ export const Home: React.FC = () => {
   const navigate = useNavigate();
   const [inViewL1, setInViewL1] = useState(false);
   const [inViewL2, setInViewL2] = useState(false);
+  const [inViewED, setInViewED] = useState(false);
   const slideRefL1 = useRef(null);
   const slideRefL2 = useRef(null);
+  const slideRefED = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -112,6 +115,30 @@ export const Home: React.FC = () => {
     return () => {
       if (slideRefL2.current) {
         observer.unobserve(slideRefL2.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setInViewED(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.9 } // You can adjust the threshold to control when the animation starts
+    );
+
+    if (slideRefED.current) {
+      observer.observe(slideRefED.current);
+    }
+
+    return () => {
+      if (slideRefED.current) {
+        observer.unobserve(slideRefED.current);
       }
     };
   }, []);
@@ -196,13 +223,12 @@ export const Home: React.FC = () => {
             fontWeight="bold"
             sx={{
               fontFamily: "Bebas Neue",
-              fontSize: 259,
+              fontSize: "clamp(2rem, 18vw, 20rem)",
               "&:hover": {
                 color: "#3bff00",
                 cursor: "pointer",
               },
             }}
-            mt={2}
             ml={15}
             onClick={() => navigate("/manifiesto")}
           >
@@ -210,7 +236,7 @@ export const Home: React.FC = () => {
           </Typography>
         </Slide>
       </Box>
-      <Box ref={slideRefL2} display="flex" justifyContent="center" gap={10}>
+      <Box ref={slideRefL2} display="flex" justifyContent="center" gap={5}>
         <Slide
           direction="right"
           in={inViewL2}
@@ -222,13 +248,12 @@ export const Home: React.FC = () => {
             fontWeight="bold"
             sx={{
               fontFamily: "Bebas Neue",
-              fontSize: 244,
+              fontSize: "clamp(2rem, 16vw, 18rem)",
               "&:hover": {
                 color: "#3bff00",
                 cursor: "pointer",
               },
             }}
-            mt={2}
             onClick={() => navigate("/about")}
           >
             ABOUT
@@ -246,13 +271,12 @@ export const Home: React.FC = () => {
               fontWeight: "bold",
               fontStyle: "italic",
               fontFamily: "Bison",
-              fontSize: 146,
+              fontSize: "clamp(2rem, 11vw, 13rem)",
               "&:hover": {
                 color: "#3bff00",
                 cursor: "pointer",
               },
             }}
-            mt={2}
           >
             GALLERY
           </Typography>
@@ -274,20 +298,27 @@ export const Home: React.FC = () => {
           CONTACT
         </Typography>
       </Box> */}
-      <Box>
-        <Typography
-          variant="h2"
-          color={theme.palette.text.disabled}
-          sx={{
-            fontSize: 54,
-            fontWeight: "bold",
-            fontStyle: "italic",
-            fontFamily: "Bison",
-          }}
-          mt={2}
+      <Box ref={slideRefED} mb={15}>
+        <Slide
+          direction="left"
+          in={inViewED}
+          timeout={{ enter: 1500, exit: 300 }}
+          easing="ease-in-out"
         >
-          EXCLUSIVE DESIGNS / (COMING SOON)
-        </Typography>
+          <Typography
+            variant="h2"
+            color={theme.palette.text.disabled}
+            sx={{
+              fontSize: "clamp(0.5rem, 6vw, 8rem)",
+              fontWeight: "bold",
+              fontStyle: "italic",
+              fontFamily: "Bison",
+            }}
+            ml={25}
+          >
+            EXCLUSIVE DESIGNS
+          </Typography>
+        </Slide>
       </Box>
       <Grid container spacing={2}>
         {abstractReverberationsPaintings.map((item) => (
@@ -319,9 +350,8 @@ export const Home: React.FC = () => {
             <LazyImage
               src={item.file}
               alt={`Raices Painting ${item.id}`}
-              width="auto"
-              minWidth="250px"
-              height="250px"
+              width="100%"
+              height="auto"
               onClick={() => navigate(`/gallery/raices/${item.id}`)}
             />
           </Grid>
@@ -364,9 +394,8 @@ export const Home: React.FC = () => {
             <LazyImage
               src={item.file}
               alt={`Pandemia Painting ${item.id}`}
-              width="auto"
-              minWidth="150px"
-              height="150px"
+              width="100%"
+              height="auto"
               onClick={() => navigate(`/gallery/pandemia/${item.id}`)}
             />
           </Grid>
