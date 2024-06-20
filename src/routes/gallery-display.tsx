@@ -36,16 +36,24 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
   const visibleImages = images.slice(currentIndex, currentIndex + itemsToShow);
 
   return (
-    <Grid container spacing={2} alignItems="center">
-      <Grid item>
-        <IconButton onClick={handlePrevious} disabled={currentIndex === 0}>
-          <ArrowBack />
-        </IconButton>
-      </Grid>
+    <Grid container spacing={2}>
+      {images.length > 5 && (
+        <Grid item>
+          <IconButton onClick={handlePrevious} disabled={currentIndex === 0}>
+            <ArrowBack />
+          </IconButton>
+        </Grid>
+      )}
       <Grid item xs>
         <Grid container spacing={2}>
           {visibleImages.map((image) => (
-            <Grid item xs={12 / itemsToShow} key={image.id}>
+            <Grid
+              item
+              xs={12 / itemsToShow}
+              key={image.id}
+              display="flex"
+              alignItems="center"
+            >
               <img
                 src={image.file}
                 alt={`${image.id}`}
@@ -56,14 +64,16 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           ))}
         </Grid>
       </Grid>
-      <Grid item>
-        <IconButton
-          onClick={handleNext}
-          disabled={currentIndex >= images.length - itemsToShow}
-        >
-          <ArrowForward />
-        </IconButton>
-      </Grid>
+      {images.length > 5 && (
+        <Grid item>
+          <IconButton
+            onClick={handleNext}
+            disabled={currentIndex >= images.length - itemsToShow}
+          >
+            <ArrowForward />
+          </IconButton>
+        </Grid>
+      )}
     </Grid>
   );
 };
@@ -98,8 +108,8 @@ export const GalleryDisplay: React.FC = () => {
       : collection === "raices"
         ? 'En esta serie de tres, plasmo la capacidad de adaptación a los cambios, la metamorfosis personal y renacimiento. Fusionando elementos de realidad y fantasía, "Raíces" invita al espectador a sumergirse en un mundo donde la imaginación florece, mostrando cómo, a través del cambio de contexto, se puede encontrar la verdadera esencia y crecer desde las raíces más profundas.'
         : collection === "simbiosis"
-          ? "SIMBIOSIS"
-          : "PANDEMIA";
+          ? '"Simbiosis" es un estallido de color que captura y entrelaza la esencia de los comportamientos humanos a través de bucles envolventes y salpicaduras vibrantes. Cada obra es una representación visual de las emociones y experiencias cotidianas, desde la calma y la alegría hasta el caos e incertidumbre. Los trazos simbolizan las rutinas y los hábitos que moldean nuestras vidas, mientras que las salpicaduras de color representan los momentos inesperados y las emociones intensas que surgen sin previo aviso creando una danza visual que insita al espectador a reflexionar sobre su ser.'
+          : "La pandemia nos sumergió a todos en un periodo de oscuridad. Es allí donde encontré una fuente inesperada de inspiración y expresión.Esta serie se basa en texturas que narran historias de adversidad, cada obra representa las complejidades y luchas enfrentadas. El uso de tonos metálicos se convirtió en una representación visual de la empatía, reflejando la conexión y solidaridad humana en tiempos difíciles. Haciendo uso de colores vibrantes, como un símbolo de esperanza en medio de la incertidumbre y caos. Así retomé el mundo del arte, encontrando belleza y significado en la adversidad, transformando cada pincelada en un testimonio de resiliencia y luz.";
 
   const [zoom, setZoom] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
@@ -117,7 +127,7 @@ export const GalleryDisplay: React.FC = () => {
       paddingX={{ xs: "1rem", md: "10rem" }}
       paddingTop={{ xs: "0.5rem", md: "5rem" }}
     >
-      <Stack spacing={{ xs: 2, md: 4 }}>
+      <Stack spacing={{ xs: 2, md: 4 }} mb={5}>
         <Typography
           variant="h3"
           fontStyle="bold"
@@ -156,12 +166,6 @@ export const GalleryDisplay: React.FC = () => {
         >
           <img src={displayPhoto?.file} loading="lazy" />
         </Box>
-        {/* <img
-          src={displayPhoto?.file}
-          loading="lazy"
-          height="100%"
-          width="100%"
-        /> */}
         <Gallery images={photoArray} />
       </Stack>
     </Box>
