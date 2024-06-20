@@ -36,7 +36,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
   const visibleImages = images.slice(currentIndex, currentIndex + itemsToShow);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} alignItems="center">
       {images.length > 5 && (
         <Grid item>
           <IconButton onClick={handlePrevious} disabled={currentIndex === 0}>
