@@ -49,12 +49,17 @@ const LazyImage: React.FC<LazyImageProps> = ({
       <img
         src={src}
         alt={alt}
+        onLoad={() => setLoaded(true)}
+        onClick={onClick}
         style={{
           display: loaded ? "block" : "none",
           cursor: "pointer",
+          maxWidth: "100%",
+          maxHeight: "100%",
+          width: "auto",
+          height: "auto",
+          flexShrink: 0,
         }}
-        onLoad={() => setLoaded(true)}
-        onClick={onClick}
         {...props}
       />
     </div>
@@ -322,7 +327,16 @@ export const Home: React.FC = () => {
       </Box>
       <Grid container spacing={2}>
         {abstractReverberationsPaintings.map((item) => (
-          <Grid key={item.id} item xs={12 / 5}>
+          <Grid
+            key={item.id}
+            item
+            xs={12 / 5}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <LazyImage
               src={item.file}
               alt={`Abstract Reverberations Painting ${item.id}`}
@@ -346,7 +360,16 @@ export const Home: React.FC = () => {
       </Typography>
       <Grid container spacing={2}>
         {raicesPaintings.map((item) => (
-          <Grid key={item.id} item xs={12 / 3}>
+          <Grid
+            key={item.id}
+            item
+            xs={12 / 3}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <LazyImage
               src={item.file}
               alt={`Raices Painting ${item.id}`}
@@ -368,7 +391,16 @@ export const Home: React.FC = () => {
       </Typography>
       <Grid container spacing={2}>
         {simbiosisPaintings.map((item) => (
-          <Grid key={item.id} item xs={12 / 4}>
+          <Grid
+            key={item.id}
+            item
+            xs={12 / 4}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <LazyImage
               src={item.file}
               alt={`Simbiosis Painting ${item.id}`}
@@ -390,7 +422,16 @@ export const Home: React.FC = () => {
       </Typography>
       <Grid container spacing={2}>
         {pandemiaPaintings.map((item) => (
-          <Grid key={item.id} item xs={12 / 5}>
+          <Grid
+            key={item.id}
+            item
+            xs={12 / 5}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <LazyImage
               src={item.file}
               alt={`Pandemia Painting ${item.id}`}
