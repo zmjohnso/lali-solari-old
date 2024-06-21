@@ -17,7 +17,7 @@ const aboutBioPictures = [
 
 export const About: React.FC = () => {
   return (
-    <Box width="100vw" mt={4}>
+    <Box width="100vw" mt={4} mb={4}>
       <Typography variant="h2" align="center">
         About
       </Typography>

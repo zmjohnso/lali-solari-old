@@ -55,7 +55,6 @@ export const Layout: React.FC = () => {
       <AppBar
         position="static"
         sx={{ background: "transparent", boxShadow: "none" }}
-        // sx={{ background: "white"}}
       >
         <Container
           maxWidth="xl"
@@ -81,6 +80,10 @@ export const Layout: React.FC = () => {
                 fontWeight="bold"
                 color="black"
                 onClick={() => navigate("/")}
+                sx={{
+                  fontSize: "clamp(1rem, 6vw, 10rem)",
+                  fontFamily: "Bison",
+                }}
               >
                 LALI SOLARI
               </Typography>
@@ -89,6 +92,7 @@ export const Layout: React.FC = () => {
                 gutterBottom
                 color="black"
                 sx={{
+                  fontSize: "clamp(0.5rem, 1.25vw, 6rem)",
                   fontFamily: "Open Sans",
                 }}
               >

@@ -136,9 +136,9 @@ export const GalleryDisplay: React.FC = () => {
       <Stack spacing={{ xs: 2, md: 4 }} mb={5}>
         <Typography
           variant="h3"
+          fontWeight="bold"
           sx={{
             fontFamily: "Open Sans",
-            fontWeight: "bold",
           }}
         >
           {collectionName}

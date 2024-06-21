@@ -319,6 +319,16 @@ export const Home: React.FC = () => {
           </Typography>
         </Slide>
       </Box>
+      <Typography
+        fontStyle="bold"
+        variant="h2"
+        sx={{
+          fontSize: "clamp(2rem, 6vw, 10rem)",
+          fontFamily: "Bebas Neue",
+        }}
+      >
+        ABSTRACT REVERBERATIONS
+      </Typography>
       <Grid container spacing={2}>
         {arPhotos.map((item) => (
           <Grid
@@ -344,7 +354,9 @@ export const Home: React.FC = () => {
       <Typography
         fontStyle="bold"
         variant="h2"
+        mt={8}
         sx={{
+          fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
       >
@@ -375,7 +387,9 @@ export const Home: React.FC = () => {
       <Typography
         fontStyle="bold"
         variant="h2"
+        mt={8}
         sx={{
+          fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
       >
@@ -406,7 +420,9 @@ export const Home: React.FC = () => {
       <Typography
         fontStyle="bold"
         variant="h2"
+        mt={8}
         sx={{
+          fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
       >
