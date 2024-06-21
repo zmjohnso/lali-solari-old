@@ -29,3 +29,5 @@ export interface GalleryItem {
   photo: Photo;
   gallery: Gallery;
 }
+
+export type Locale = "en-US" | "es";

@@ -9,43 +9,59 @@ import "@fontsource/open-sans";
 import "@fontsource/arimo";
 import { HomeLoader } from "./loaders/home-loader";
 import { GalleryDisplayLoader } from "./loaders/gallery-display-loader";
+import { useStore } from "./store/store";
+import { useMemo } from "react";
+import { Locale } from "./shared/types";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-    loader: async () => {
-      const loader = await HomeLoader();
-      return loader;
+const router = (languageMode: Locale) =>
+  createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+      loader: async () => {
+        const loader = await HomeLoader();
+        return loader;
+      },
     },
-  },
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "manifiesto",
-        element: <Manifiesto />,
-      },
-      {
-        path: "about",
-        element: <About />,
-      },
-      {
-        path: "gallery/:entryId",
-        element: <GalleryDisplay />,
-        loader: async ({ params }) => {
-          const { entryId } = params;
-          const loader = await GalleryDisplayLoader(entryId);
-          return loader;
-        }
-      },
-    ],
-  },
-]);
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "manifiesto",
+          element: <Manifiesto />,
+        },
+        {
+          path: "about",
+          element: <About />,
+        },
+        {
+          path: "gallery/:entryId",
+          element: <GalleryDisplay />,
+          loader: async ({ params }) => {
+            const { entryId } = params;
+            const loader = await GalleryDisplayLoader(languageMode, entryId);
+            return loader;
+          },
+        },
+      ],
+    },
+  ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  const [languageMode, setLanguageMode] = useStore((state) => [
+    state.languageMode,
+    state.setLanguageMode,
+  ]);
+
+  const currentLanguage = navigator.language;
+  useMemo(() => {
+    const castellano = ["es"];
+    // default to English if user is not using Spanish
+    setLanguageMode(castellano.includes(currentLanguage) ? "es" : "en-US");
+  }, [currentLanguage, setLanguageMode]);
+
+  return <RouterProvider router={router(languageMode)} />;
 }
 
 export default App;

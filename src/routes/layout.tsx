@@ -5,12 +5,38 @@ import {
   Box,
   IconButton,
   Typography,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import TranslateIcon from "@mui/icons-material/Translate";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useStore } from "../store/store";
 
 export const Layout: React.FC = () => {
   const navigate = useNavigate();
+  const [setLanguageMode] = useStore((state) => [state.setLanguageMode]);
+  const [translateAnchorEl, setTranslateMenuAnchorEl] =
+    useState<null | HTMLElement>(null);
+  const translateOpen = Boolean(translateAnchorEl);
+
+  const handleTranslateMenuClose = () => {
+    setTranslateMenuAnchorEl(null);
+  };
+  const handleTranslateMenuClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setTranslateMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleLanguageMode = (currentLanguage: string) => {
+    const newLanguageMode = currentLanguage === "English" ? "en-US" : "es";
+    setLanguageMode(newLanguageMode);
+  };
+
+  const languageOptions = ["English", "castellano"];
+
   const handleInstagramClick = () => {
     window.open(
       "https://www.instagram.com/solarilali/",
@@ -88,9 +114,35 @@ export const Layout: React.FC = () => {
                 FINE ARTS & EXCLUSIVE DESIGNS
               </Typography>
             </Box>
-            <IconButton onClick={handleInstagramClick}>
-              <InstagramIcon />
-            </IconButton>
+            <Box>
+              <IconButton
+                aria-label="translate button"
+                onClick={handleTranslateMenuClick}
+              >
+                <TranslateIcon />
+              </IconButton>
+              <Menu
+                id="translate-menu"
+                anchorEl={translateAnchorEl}
+                open={translateOpen}
+                onClose={handleTranslateMenuClose}
+              >
+                {languageOptions.map((item) => (
+                  <MenuItem
+                    key={item}
+                    onClick={() => {
+                      handleLanguageMode(item);
+                      handleTranslateMenuClose();
+                    }}
+                  >
+                    {item}
+                  </MenuItem>
+                ))}
+              </Menu>
+              <IconButton onClick={handleInstagramClick}>
+                <InstagramIcon />
+              </IconButton>
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>
