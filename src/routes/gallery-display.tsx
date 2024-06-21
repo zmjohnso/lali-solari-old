@@ -1,7 +1,7 @@
 import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { GalleryDisplayLoaderValue } from "../loaders/gallery-display-loader";
 import { extractPhotoId } from "../shared/utilities";
 
@@ -53,8 +53,18 @@ const Gallery = () => {
               <img
                 src={item.fields.photo.fields.file.url}
                 alt={item.fields.photo.fields.title}
-                style={{ width: "100%", cursor: "pointer" }}
+                style={{
+                  width: "100%",
+                  cursor: "pointer",
+                  transition: "transform 0.3s",
+                }}
                 onClick={() => navigate(`/gallery/${item.sys.id}`)}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.transform = "scale(1.15)")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.transform = "scale(1)")
+                }
               />
             </Grid>
           ))}
@@ -80,14 +90,42 @@ export const GalleryDisplay: React.FC = () => {
   const collectionDescription = mainPhoto?.fields.gallery.fields.description;
 
   const [zoom, setZoom] = useState(false);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
+  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+  const [currentPosition, setCurrentPosition] = useState({ x: 0, y: 0 });
+  const imageRef = useRef<HTMLImageElement>(null);
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setCursorPosition({ x, y });
+  const handleClick = () => {
     setZoom(!zoom);
+    setDragging(false);
+    setCurrentPosition({ x: 0, y: 0 });
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (zoom) {
+      setDragging(true);
+      setStartPosition({
+        x: e.clientX - currentPosition.x,
+        y: e.clientY - currentPosition.y,
+      });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (dragging) {
+      setCurrentPosition({
+        x: e.clientX - startPosition.x,
+        y: e.clientY - startPosition.y,
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setDragging(false);
   };
 
   return (
@@ -98,9 +136,9 @@ export const GalleryDisplay: React.FC = () => {
       <Stack spacing={{ xs: 2, md: 4 }} mb={5}>
         <Typography
           variant="h3"
-          fontStyle="bold"
           sx={{
             fontFamily: "Open Sans",
+            fontWeight: "bold",
           }}
         >
           {collectionName}
@@ -118,17 +156,23 @@ export const GalleryDisplay: React.FC = () => {
         </Typography>
         <Box
           onClick={handleClick}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
           sx={{
             overflow: "hidden",
             position: "relative",
-            cursor: "zoom-in",
+            cursor: zoom ? "grab" : "zoom-in",
+            width: "100%",
+            height: "auto", // Ensure height scales with width
             "& img": {
-              transition: "transform 0.3s ease, transform-origin 0.3s ease",
-              transform: zoom ? `scale(2)` : "none",
-              transformOrigin: `${cursorPosition.x}% ${cursorPosition.y}%`,
-              cursor: zoom ? "zoom-out" : "zoom-in",
-              width: "100%",
-              height: "100%",
+              transition: zoom ? "none" : "transform 0.3s ease",
+              transform: zoom
+                ? `scale(2) translate(${currentPosition.x}px, ${currentPosition.y}px)`
+                : "none",
+              cursor: dragging ? "grabbing" : zoom ? "grab" : "zoom-in",
+              width: "100%", // Ensure image covers its container
             },
           }}
         >
@@ -136,7 +180,18 @@ export const GalleryDisplay: React.FC = () => {
             src={mainPhoto?.fields.photo.fields.file.url}
             alt={mainPhoto?.fields.photo.fields.title}
             loading="lazy"
+            ref={imageRef}
           />
+          {mainPhoto?.fields.paintingData && (
+            <Typography
+              variant="caption"
+              display="flex"
+              justifyContent="flex-end"
+            >
+              {mainPhoto?.fields.paintingData.fields.size}{" "}
+              {mainPhoto?.fields.paintingData.fields.technique}
+            </Typography>
+          )}
         </Box>
         <Gallery />
       </Stack>

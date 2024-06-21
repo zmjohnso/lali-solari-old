@@ -27,7 +27,16 @@ export interface Gallery {
 export interface GalleryItem {
   title: string;
   photo: Photo;
+  thumbnail: Photo;
   gallery: Gallery;
+  paintingData: PaintingData;
+}
+
+export interface PaintingData {
+  fields: {
+    size: string;
+    technique: string;
+  };
 }
 
 export type Locale = "en-US" | "es";

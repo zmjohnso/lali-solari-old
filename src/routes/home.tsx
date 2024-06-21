@@ -183,44 +183,28 @@ export const Home: React.FC = () => {
             flexDirection="column"
             alignItems="center"
             sx={{
-              display: { xs: "flex", md: "none" },
-            }}
-          >
-            <Typography
-              variant="h4"
-              fontWeight="bold"
-              color="black"
-              onClick={() => navigate("/")}
-            >
-              LALI SOLARI
-            </Typography>
-            <Typography
-              variant="body1"
-              gutterBottom
-              color="black"
-              sx={{
-                fontFamily: "Open Sans",
-              }}
-            >
-              FINE ARTS & EXCLUSIVE DESIGNS
-            </Typography>
-          </Box>
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            sx={{
-              display: { xs: "none", md: "flex" },
+              display: "flex",
               "&:hover": {
                 cursor: "pointer",
               },
             }}
             onClick={() => navigate("/")}
           >
-            <Typography variant="h4" fontWeight="bold" color="black">
+            <Typography
+              variant="h4"
+              fontWeight="bold"
+              sx={{ fontSize: "clamp(1rem, 6vw, 10rem)", fontFamily: "Bison" }}
+            >
               LALI SOLARI
             </Typography>
-            <Typography variant="body1" gutterBottom color="black">
+            <Typography
+              variant="body1"
+              gutterBottom
+              sx={{
+                fontSize: "clamp(0.5rem, 1.25vw, 6rem)",
+                fontFamily: "Open Sans",
+              }}
+            >
               FINE ARTS & EXCLUSIVE DESIGNS
             </Typography>
           </Box>
@@ -244,7 +228,7 @@ export const Home: React.FC = () => {
                 cursor: "pointer",
               },
             }}
-            ml={15}
+            ml={{ xs: 10, md: 30 }}
             onClick={() => navigate("/manifiesto")}
           >
             MANIFIESTO
@@ -352,9 +336,7 @@ export const Home: React.FC = () => {
               alt={item.fields.photo.fields.title}
               width="100%"
               height="auto"
-              onClick={() =>
-                navigate(`/gallery/${item.sys.id}`)
-              }
+              onClick={() => navigate(`/gallery/${item.sys.id}`)}
             />
           </Grid>
         ))}
