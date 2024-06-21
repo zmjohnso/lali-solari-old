@@ -182,17 +182,18 @@ export const GalleryDisplay: React.FC = () => {
             loading="lazy"
             ref={imageRef}
           />
-          {mainPhoto?.fields.paintingData && (
-            <Typography
-              variant="caption"
-              display="flex"
-              justifyContent="flex-end"
-            >
-              {mainPhoto?.fields.paintingData.fields.size}{" "}
-              {mainPhoto?.fields.paintingData.fields.technique}
-            </Typography>
-          )}
         </Box>
+        {mainPhoto?.fields.paintingData && (
+          <Typography
+            variant="caption"
+            display="flex"
+            justifyContent="flex-end"
+            sx={{ marginTop: "0.5rem !important" }} // override default margin from the stack
+          >
+            {mainPhoto?.fields.paintingData.fields.size}{" "}
+            {mainPhoto?.fields.paintingData.fields.technique}
+          </Typography>
+        )}
         <Gallery />
       </Stack>
     </Box>
