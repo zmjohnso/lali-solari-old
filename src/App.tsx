@@ -12,6 +12,7 @@ import { GalleryDisplayLoader } from "./loaders/gallery-display-loader";
 import { useStore } from "./store/store";
 import { useMemo } from "react";
 import { Locale } from "./shared/types";
+import './fonts.css';
 
 const router = (languageMode: Locale) =>
   createBrowserRouter([

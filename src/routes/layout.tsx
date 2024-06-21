@@ -39,7 +39,7 @@ export const Layout: React.FC = () => {
 
   const handleInstagramClick = () => {
     window.open(
-      "https://www.instagram.com/solarilali/",
+      "https://www.instagram.com/lalisolariart/",
       "_blank",
       "noopener noreferrer"
     );
