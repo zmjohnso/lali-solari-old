@@ -8,13 +8,8 @@ import {
   Skeleton,
 } from "@mui/material";
 import { useState, useEffect, useRef, ImgHTMLAttributes } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  abstractReverberationsPaintings,
-  pandemiaPaintings,
-  raicesPaintings,
-  simbiosisPaintings,
-} from "../shared/photos";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { HomeLoaderValue } from "../loaders/home-loader";
 
 interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -67,6 +62,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
 };
 
 export const Home: React.FC = () => {
+  const homePage = useLoaderData() as HomeLoaderValue;
   const theme = useTheme();
   const navigate = useNavigate();
   const [inViewL1, setInViewL1] = useState(false);
@@ -76,6 +72,19 @@ export const Home: React.FC = () => {
   const slideRefL2 = useRef(null);
   const slideRefED = useRef(null);
 
+  // this works, but how to make types happy?
+  const arPhotos = homePage.filter(
+    (x) => x.fields.gallery.fields.name === "ABSTRACT REVERBERATIONS"
+  );
+  const symbiosisPhotos = homePage.filter(
+    (x) => x.fields.gallery.fields.name === "SYMBIOSIS"
+  );
+  const pandemicPhotos = homePage.filter(
+    (x) => x.fields.gallery.fields.name === "PANDEMIC"
+  );
+  const rootsPhotos = homePage.filter(
+    (x) => x.fields.gallery.fields.name === "ROOTS"
+  );
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -157,6 +166,7 @@ export const Home: React.FC = () => {
       paddingLeft="2rem"
       paddingRight="2rem"
       mt={2}
+      mb={4}
     >
       <Box
         sx={{
@@ -326,9 +336,9 @@ export const Home: React.FC = () => {
         </Slide>
       </Box>
       <Grid container spacing={2}>
-        {abstractReverberationsPaintings.map((item) => (
+        {arPhotos.map((item) => (
           <Grid
-            key={item.id}
+            key={item.fields.photo.fields.title}
             item
             xs={12 / 5}
             sx={{
@@ -338,12 +348,12 @@ export const Home: React.FC = () => {
             }}
           >
             <LazyImage
-              src={item.file}
-              alt={`Abstract Reverberations Painting ${item.id}`}
+              src={item.fields.photo.fields.file.url}
+              alt={item.fields.photo.fields.title}
               width="100%"
               height="auto"
               onClick={() =>
-                navigate(`/gallery/abstract-reverberations/${item.id}`)
+                navigate(`/gallery/${item.sys.id}`)
               }
             />
           </Grid>
@@ -359,9 +369,9 @@ export const Home: React.FC = () => {
         RAICES
       </Typography>
       <Grid container spacing={2}>
-        {raicesPaintings.map((item) => (
+        {rootsPhotos.map((item) => (
           <Grid
-            key={item.id}
+            key={item.fields.photo.fields.title}
             item
             xs={12 / 3}
             sx={{
@@ -371,11 +381,11 @@ export const Home: React.FC = () => {
             }}
           >
             <LazyImage
-              src={item.file}
-              alt={`Raices Painting ${item.id}`}
+              src={item.fields.photo.fields.file.url}
+              alt={item.fields.photo.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`/gallery/raices/${item.id}`)}
+              onClick={() => navigate(`/gallery/${item.sys.id}`)}
             />
           </Grid>
         ))}
@@ -390,9 +400,9 @@ export const Home: React.FC = () => {
         SIMBIOSIS
       </Typography>
       <Grid container spacing={2}>
-        {simbiosisPaintings.map((item) => (
+        {symbiosisPhotos.map((item) => (
           <Grid
-            key={item.id}
+            key={item.fields.photo.fields.title}
             item
             xs={12 / 4}
             sx={{
@@ -402,11 +412,11 @@ export const Home: React.FC = () => {
             }}
           >
             <LazyImage
-              src={item.file}
-              alt={`Simbiosis Painting ${item.id}`}
+              src={item.fields.photo.fields.file.url}
+              alt={item.fields.photo.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`/gallery/simbiosis/${item.id}`)}
+              onClick={() => navigate(`/gallery/${item.sys.id}`)}
             />
           </Grid>
         ))}
@@ -421,9 +431,9 @@ export const Home: React.FC = () => {
         PANDEMIA
       </Typography>
       <Grid container spacing={2}>
-        {pandemiaPaintings.map((item) => (
+        {pandemicPhotos.map((item) => (
           <Grid
-            key={item.id}
+            key={item.fields.photo.fields.title}
             item
             xs={12 / 5}
             sx={{
@@ -433,11 +443,11 @@ export const Home: React.FC = () => {
             }}
           >
             <LazyImage
-              src={item.file}
-              alt={`Pandemia Painting ${item.id}`}
+              src={item.fields.photo.fields.file.url}
+              alt={item.fields.photo.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`/gallery/pandemia/${item.id}`)}
+              onClick={() => navigate(`/gallery/${item.sys.id}`)}
             />
           </Grid>
         ))}

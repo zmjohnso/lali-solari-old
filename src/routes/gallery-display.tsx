@@ -1,26 +1,19 @@
 import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  abstractReverberationsPaintings,
-  pandemiaPaintings,
-  raicesPaintings,
-  simbiosisPaintings,
-} from "../shared/photos";
-import { Image, Collection } from "../shared/types";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { useState } from "react";
+import { GalleryDisplayLoaderValue } from "../loaders/gallery-display-loader";
+import { extractPhotoId } from "../shared/utilities";
 
-interface GalleryProps {
-  images: Image[];
-}
-
-const Gallery: React.FC<GalleryProps> = ({ images }) => {
-  const { collection, id } = useParams<RouteParams>();
+const Gallery = () => {
+  const { mainPhoto, galleryItems } =
+    useLoaderData() as GalleryDisplayLoaderValue;
   const navigate = useNavigate();
   const itemsToShow = 5;
-  const initialIndex = id
-    ? Math.floor((parseInt(id, 10) - 1) / itemsToShow) * itemsToShow
-    : 0;
+
+  const photoId = extractPhotoId(mainPhoto?.fields.title || "");
+
+  const initialIndex = Math.floor(photoId / itemsToShow) * itemsToShow;
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
 
   const handlePrevious = () => {
@@ -29,15 +22,18 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex < images.length - itemsToShow ? prevIndex + 1 : prevIndex
+      prevIndex < galleryItems.length - itemsToShow ? prevIndex + 1 : prevIndex
     );
   };
 
-  const visibleImages = images.slice(currentIndex, currentIndex + itemsToShow);
+  const visibleImages = galleryItems.slice(
+    currentIndex,
+    currentIndex + itemsToShow
+  );
 
   return (
     <Grid container spacing={2} alignItems="center">
-      {images.length > 5 && (
+      {galleryItems.length > 5 && (
         <Grid item>
           <IconButton onClick={handlePrevious} disabled={currentIndex === 0}>
             <ArrowBack />
@@ -46,29 +42,29 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
       )}
       <Grid item xs>
         <Grid container spacing={2}>
-          {visibleImages.map((image) => (
+          {visibleImages.map((item) => (
             <Grid
               item
               xs={12 / itemsToShow}
-              key={image.id}
+              key={item.fields.photo.fields.title}
               display="flex"
               alignItems="center"
             >
               <img
-                src={image.file}
-                alt={`${image.id}`}
+                src={item.fields.photo.fields.file.url}
+                alt={item.fields.photo.fields.title}
                 style={{ width: "100%", cursor: "pointer" }}
-                onClick={() => navigate(`/gallery/${collection}/${image.id}`)}
+                onClick={() => navigate(`/gallery/${item.sys.id}`)}
               />
             </Grid>
           ))}
         </Grid>
       </Grid>
-      {images.length > 5 && (
+      {galleryItems.length > 5 && (
         <Grid item>
           <IconButton
             onClick={handleNext}
-            disabled={currentIndex >= images.length - itemsToShow}
+            disabled={currentIndex >= galleryItems.length - itemsToShow}
           >
             <ArrowForward />
           </IconButton>
@@ -78,38 +74,10 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
   );
 };
 
-interface RouteParams extends Record<string, string | undefined> {
-  collection?: Collection;
-  id?: string;
-}
-
 export const GalleryDisplay: React.FC = () => {
-  const { collection, id } = useParams<RouteParams>();
-  const photoArray: Image[] =
-    collection === "abstract-reverberations"
-      ? abstractReverberationsPaintings
-      : collection === "raices"
-        ? raicesPaintings
-        : collection === "simbiosis"
-          ? simbiosisPaintings
-          : pandemiaPaintings;
-  const displayPhoto = photoArray.find((x) => x.id.toString() === id);
-  const collectionName =
-    collection === "abstract-reverberations"
-      ? "ABSTRACT REBERVERATIONS"
-      : collection === "raices"
-        ? "RAICES"
-        : collection === "simbiosis"
-          ? "SIMBIOSIS"
-          : "PANDEMIA";
-  const collectionDescription =
-    collection === "abstract-reverberations"
-      ? "Esta serie creada en Buenos Aires, nace a raíz de la música y mi interpretación en papel. Me permite explorar y expresar de manera genuina mis emociones más profundas al reconectarme con mi cuna, actuando como un catalizador para mi creatividad. Así, cada pintura se transforma en una representación tangible de mis sentimientos al vivir y crear rodeada del entorno inspirador en el que me crié."
-      : collection === "raices"
-        ? 'En esta serie de tres, plasmo la capacidad de adaptación a los cambios, la metamorfosis personal y renacimiento. Fusionando elementos de realidad y fantasía, "Raíces" invita al espectador a sumergirse en un mundo donde la imaginación florece, mostrando cómo, a través del cambio de contexto, se puede encontrar la verdadera esencia y crecer desde las raíces más profundas.'
-        : collection === "simbiosis"
-          ? '"Simbiosis" es un estallido de color que captura y entrelaza la esencia de los comportamientos humanos a través de bucles envolventes y salpicaduras vibrantes. Cada obra es una representación visual de las emociones y experiencias cotidianas, desde la calma y la alegría hasta el caos e incertidumbre. Los trazos simbolizan las rutinas y los hábitos que moldean nuestras vidas, mientras que las salpicaduras de color representan los momentos inesperados y las emociones intensas que surgen sin previo aviso creando una danza visual que insita al espectador a reflexionar sobre su ser.'
-          : "La pandemia nos sumergió a todos en un periodo de oscuridad. Es allí donde encontré una fuente inesperada de inspiración y expresión.Esta serie se basa en texturas que narran historias de adversidad, cada obra representa las complejidades y luchas enfrentadas. El uso de tonos metálicos se convirtió en una representación visual de la empatía, reflejando la conexión y solidaridad humana en tiempos difíciles. Haciendo uso de colores vibrantes, como un símbolo de esperanza en medio de la incertidumbre y caos. Así retomé el mundo del arte, encontrando belleza y significado en la adversidad, transformando cada pincelada en un testimonio de resiliencia y luz.";
+  const { mainPhoto } = useLoaderData() as GalleryDisplayLoaderValue;
+  const collectionName = mainPhoto?.fields.gallery.fields.name;
+  const collectionDescription = mainPhoto?.fields.gallery.fields.description;
 
   const [zoom, setZoom] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
@@ -164,9 +132,13 @@ export const GalleryDisplay: React.FC = () => {
             },
           }}
         >
-          <img src={displayPhoto?.file} loading="lazy" />
+          <img
+            src={mainPhoto?.fields.photo.fields.file.url}
+            alt={mainPhoto?.fields.photo.fields.title}
+            loading="lazy"
+          />
         </Box>
-        <Gallery images={photoArray} />
+        <Gallery />
       </Stack>
     </Box>
   );

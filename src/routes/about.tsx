@@ -1,5 +1,19 @@
 import { Box, Grid, Typography, ImageList, ImageListItem } from "@mui/material";
-import { aboutBioPictures } from "../shared/photos";
+
+const aboutBioPictures = [
+  {
+    id: 1,
+    file: "/public/assets/about/1.webp",
+  },
+  {
+    id: 2,
+    file: "/public/assets/about/2.webp",
+  },
+  {
+    id: 3,
+    file: "/public/assets/about/3.webp",
+  },
+];
 
 export const About: React.FC = () => {
   return (
@@ -17,7 +31,7 @@ export const About: React.FC = () => {
           >
             {aboutBioPictures.map((item) => (
               <ImageListItem key={item.id}>
-                <img src={item.file} alt={item.title} loading="lazy" />
+                <img src={item.file} alt={`${item.id}`} loading="lazy" />
               </ImageListItem>
             ))}
           </ImageList>
