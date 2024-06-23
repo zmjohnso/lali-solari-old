@@ -138,6 +138,7 @@ export const GalleryDisplay: React.FC = () => {
           variant="h3"
           fontWeight="bold"
           sx={{
+            fontSize: "clamp(1rem, 8vw, 3rem)",
             fontFamily: "Open Sans",
           }}
         >

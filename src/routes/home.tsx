@@ -332,7 +332,7 @@ export const Home: React.FC = () => {
       <Grid container spacing={2}>
         {arPhotos.map((item) => (
           <Grid
-            key={item.fields.photo.fields.title}
+            key={item.fields.thumbnail.fields.title}
             item
             xs={12 / 5}
             sx={{
@@ -342,8 +342,8 @@ export const Home: React.FC = () => {
             }}
           >
             <LazyImage
-              src={item.fields.photo.fields.file.url}
-              alt={item.fields.photo.fields.title}
+              src={item.fields.thumbnail.fields.file.url}
+              alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
               onClick={() => navigate(`/gallery/${item.sys.id}`)}
@@ -365,7 +365,7 @@ export const Home: React.FC = () => {
       <Grid container spacing={2}>
         {rootsPhotos.map((item) => (
           <Grid
-            key={item.fields.photo.fields.title}
+            key={item.fields.thumbnail.fields.title}
             item
             xs={12 / 3}
             sx={{
@@ -375,8 +375,8 @@ export const Home: React.FC = () => {
             }}
           >
             <LazyImage
-              src={item.fields.photo.fields.file.url}
-              alt={item.fields.photo.fields.title}
+              src={item.fields.thumbnail.fields.file.url}
+              alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
               onClick={() => navigate(`/gallery/${item.sys.id}`)}
@@ -398,7 +398,7 @@ export const Home: React.FC = () => {
       <Grid container spacing={2}>
         {symbiosisPhotos.map((item) => (
           <Grid
-            key={item.fields.photo.fields.title}
+            key={item.fields.thumbnail.fields.title}
             item
             xs={12 / 4}
             sx={{
@@ -408,8 +408,8 @@ export const Home: React.FC = () => {
             }}
           >
             <LazyImage
-              src={item.fields.photo.fields.file.url}
-              alt={item.fields.photo.fields.title}
+              src={item.fields.thumbnail.fields.file.url}
+              alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
               onClick={() => navigate(`/gallery/${item.sys.id}`)}
@@ -431,7 +431,7 @@ export const Home: React.FC = () => {
       <Grid container spacing={2}>
         {pandemicPhotos.map((item) => (
           <Grid
-            key={item.fields.photo.fields.title}
+            key={item.fields.thumbnail.fields.title}
             item
             xs={12 / 5}
             sx={{
@@ -441,8 +441,8 @@ export const Home: React.FC = () => {
             }}
           >
             <LazyImage
-              src={item.fields.photo.fields.file.url}
-              alt={item.fields.photo.fields.title}
+              src={item.fields.thumbnail.fields.file.url}
+              alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
               onClick={() => navigate(`/gallery/${item.sys.id}`)}

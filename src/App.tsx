@@ -12,7 +12,7 @@ import { GalleryDisplayLoader } from "./loaders/gallery-display-loader";
 import { useStore } from "./store/store";
 import { useMemo } from "react";
 import { Locale } from "./shared/types";
-import './fonts.css';
+import "./fonts.css";
 
 const router = (languageMode: Locale) =>
   createBrowserRouter([
@@ -57,9 +57,8 @@ function App() {
 
   const currentLanguage = navigator.language;
   useMemo(() => {
-    const castellano = ["es"];
-    // default to English if user is not using Spanish
-    setLanguageMode(castellano.includes(currentLanguage) ? "es" : "en-US");
+    // default to Spanish if user is not using English
+    setLanguageMode(currentLanguage === "en" ? "en-US" : "es");
   }, [currentLanguage, setLanguageMode]);
 
   return <RouterProvider router={router(languageMode)} />;
