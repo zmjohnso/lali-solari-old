@@ -120,6 +120,8 @@ export const GalleryDisplay: React.FC = () => {
         <TransformWrapper>
           <TransformComponent>
             <img
+              height="auto"
+              width="100%"
               src={mainPhoto?.fields.photo.fields.file.url}
               alt={mainPhoto?.fields.photo.fields.title}
               loading="lazy"
