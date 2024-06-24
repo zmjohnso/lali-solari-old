@@ -1,9 +1,10 @@
 import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { GalleryDisplayLoaderValue } from "../loaders/gallery-display-loader";
 import { extractPhotoId } from "../shared/utilities";
+import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 
 const Gallery = () => {
   const { mainPhoto, galleryItems } =
@@ -32,7 +33,7 @@ const Gallery = () => {
   );
 
   return (
-    <Grid container spacing={2} alignItems="center">
+    <Grid container alignItems="center">
       {galleryItems.length > 5 && (
         <Grid item>
           <IconButton onClick={handlePrevious} disabled={currentIndex === 0}>
@@ -46,13 +47,13 @@ const Gallery = () => {
             <Grid
               item
               xs={12 / itemsToShow}
-              key={item.fields.photo.fields.title}
+              key={item.fields.thumbnail.fields.title}
               display="flex"
               alignItems="center"
             >
               <img
-                src={item.fields.photo.fields.file.url}
-                alt={item.fields.photo.fields.title}
+                src={item.fields.thumbnail.fields.file.url}
+                alt={item.fields.thumbnail.fields.title}
                 style={{
                   width: "100%",
                   cursor: "pointer",
@@ -60,7 +61,7 @@ const Gallery = () => {
                 }}
                 onClick={() => navigate(`/gallery/${item.sys.id}`)}
                 onMouseOver={(e) =>
-                  (e.currentTarget.style.transform = "scale(1.15)")
+                  (e.currentTarget.style.transform = "scale(1.05)")
                 }
                 onMouseOut={(e) =>
                   (e.currentTarget.style.transform = "scale(1)")
@@ -89,45 +90,6 @@ export const GalleryDisplay: React.FC = () => {
   const collectionName = mainPhoto?.fields.gallery.fields.name;
   const collectionDescription = mainPhoto?.fields.gallery.fields.description;
 
-  const [zoom, setZoom] = useState(false);
-  const [dragging, setDragging] = useState(false);
-  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
-  const [currentPosition, setCurrentPosition] = useState({ x: 0, y: 0 });
-  const imageRef = useRef<HTMLImageElement>(null);
-
-  const handleClick = () => {
-    setZoom(!zoom);
-    setDragging(false);
-    setCurrentPosition({ x: 0, y: 0 });
-  };
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (zoom) {
-      setDragging(true);
-      setStartPosition({
-        x: e.clientX - currentPosition.x,
-        y: e.clientY - currentPosition.y,
-      });
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (dragging) {
-      setCurrentPosition({
-        x: e.clientX - startPosition.x,
-        y: e.clientY - startPosition.y,
-      });
-    }
-  };
-
-  const handleMouseUp = () => {
-    setDragging(false);
-  };
-
-  const handleMouseLeave = () => {
-    setDragging(false);
-  };
-
   return (
     <Box
       paddingX={{ xs: "1rem", md: "10rem" }}
@@ -155,41 +117,21 @@ export const GalleryDisplay: React.FC = () => {
         >
           {collectionDescription}
         </Typography>
-        <Box
-          onClick={handleClick}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseLeave}
-          sx={{
-            overflow: "hidden",
-            position: "relative",
-            cursor: zoom ? "grab" : "zoom-in",
-            width: "100%",
-            height: "auto", // Ensure height scales with width
-            "& img": {
-              transition: zoom ? "none" : "transform 0.3s ease",
-              transform: zoom
-                ? `scale(2) translate(${currentPosition.x}px, ${currentPosition.y}px)`
-                : "none",
-              cursor: dragging ? "grabbing" : zoom ? "grab" : "zoom-in",
-              width: "100%", // Ensure image covers its container
-            },
-          }}
-        >
-          <img
-            src={mainPhoto?.fields.photo.fields.file.url}
-            alt={mainPhoto?.fields.photo.fields.title}
-            loading="lazy"
-            ref={imageRef}
-          />
-        </Box>
+        <TransformWrapper>
+          <TransformComponent>
+            <img
+              src={mainPhoto?.fields.photo.fields.file.url}
+              alt={mainPhoto?.fields.photo.fields.title}
+              loading="lazy"
+            />
+          </TransformComponent>
+        </TransformWrapper>
         {mainPhoto?.fields.paintingData && (
           <Typography
             variant="caption"
             display="flex"
             justifyContent="flex-end"
-            sx={{ marginTop: "0.5rem !important" }} // override default margin from the stack
+            sx={{ marginTop: "0.5rem !important", fontFamily: "Arimo" }} // override default margin from the stack
           >
             {mainPhoto?.fields.paintingData.fields.size}{" "}
             {mainPhoto?.fields.paintingData.fields.technique}

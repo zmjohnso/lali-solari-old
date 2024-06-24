@@ -46,6 +46,12 @@ const LazyImage: React.FC<LazyImageProps> = ({
         alt={alt}
         onLoad={() => setLoaded(true)}
         onClick={onClick}
+        onMouseOver={(e) =>
+          (e.currentTarget.style.transform = "scale(1.05)")
+        }
+        onMouseOut={(e) =>
+          (e.currentTarget.style.transform = "scale(1)")
+        }
         style={{
           display: loaded ? "block" : "none",
           cursor: "pointer",
@@ -53,6 +59,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
           maxHeight: "100%",
           width: "auto",
           height: "auto",
+          transition: "transform 0.3s",
           flexShrink: 0,
         }}
         {...props}
@@ -193,7 +200,7 @@ export const Home: React.FC = () => {
             <Typography
               variant="h4"
               fontWeight="bold"
-              sx={{ fontSize: "clamp(1rem, 6vw, 10rem)", fontFamily: "Bison" }}
+              sx={{ fontSize: "clamp(2rem, 6vw, 10rem)", fontFamily: "Bison" }}
             >
               LALI SOLARI
             </Typography>
@@ -281,23 +288,7 @@ export const Home: React.FC = () => {
           </Typography>
         </Slide>
       </Box>
-      {/* <Box>
-        <Typography
-          variant="h2"
-          sx={{
-            fontWeight: "bold",
-            fontFamily: "Bebas Neue",
-            "&:hover": {
-              color: "#3bff00",
-              cursor: "pointer",
-            },
-          }}
-          mt={2}
-        >
-          CONTACT
-        </Typography>
-      </Box> */}
-      <Box ref={slideRefED} mb={15}>
+      <Box ref={slideRefED} sx={{ marginBottom: { xs: "2rem", md: "9rem" }}}>
         <Slide
           direction="left"
           in={inViewED}
@@ -312,8 +303,8 @@ export const Home: React.FC = () => {
               fontWeight: "bold",
               fontStyle: "italic",
               fontFamily: "Bison",
+              marginLeft: { xs: "8rem", md: "21rem" },
             }}
-            ml={25}
           >
             EXCLUSIVE DESIGNS
           </Typography>
@@ -322,6 +313,7 @@ export const Home: React.FC = () => {
       <Typography
         fontStyle="bold"
         variant="h2"
+        mb={1}
         sx={{
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
@@ -354,7 +346,8 @@ export const Home: React.FC = () => {
       <Typography
         fontStyle="bold"
         variant="h2"
-        mt={8}
+        mt={6}
+        mb={2}
         sx={{
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
@@ -387,7 +380,8 @@ export const Home: React.FC = () => {
       <Typography
         fontStyle="bold"
         variant="h2"
-        mt={8}
+        mt={6}
+        mb={2}
         sx={{
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
@@ -420,7 +414,8 @@ export const Home: React.FC = () => {
       <Typography
         fontStyle="bold"
         variant="h2"
-        mt={8}
+        mt={6}
+        mb={2}
         sx={{
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
