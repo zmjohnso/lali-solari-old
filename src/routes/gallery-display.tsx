@@ -100,7 +100,7 @@ export const GalleryDisplay: React.FC = () => {
           variant="h3"
           fontWeight="bold"
           sx={{
-            fontSize: "clamp(1rem, 8vw, 3rem)",
+            fontSize: "clamp(1rem, 10vw, 3rem)",
             fontFamily: "Open Sans",
           }}
         >
@@ -108,11 +108,11 @@ export const GalleryDisplay: React.FC = () => {
         </Typography>
         <Typography
           variant="body1"
+          width={{ xs: "22rem", md: "30rem" }}
           sx={{
-            maxWidth: { xs: "70vw", md: "50vw" },
-            fontFamily: "Arimo",
             display: "flex",
-            alignSelf: "flex-end",
+            alignSelf: "center",
+            fontFamily: "Arimo",
           }}
         >
           {collectionDescription}
