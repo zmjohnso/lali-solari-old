@@ -288,7 +288,7 @@ export const Home: React.FC = () => {
           </Typography>
         </Slide>
       </Box>
-      <Box ref={slideRefED} sx={{ marginBottom: { xs: "2rem", md: "9rem" }}}>
+      <Box ref={slideRefED} sx={{ marginBottom: { xs: "2rem", md: "9rem" } }}>
         <Slide
           direction="left"
           in={inViewED}
@@ -318,6 +318,7 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
+        onClick={() => navigate(`gallery/${arPhotos[0].sys.id}`)}
       >
         ABSTRACT REVERBERATIONS
       </Typography>
@@ -352,6 +353,7 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
+        onClick={() => navigate(`gallery/${rootsPhotos[0].sys.id}`)}
       >
         RAICES
       </Typography>
@@ -372,7 +374,7 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`/gallery/${item.sys.id}`)}
+              onClick={() => navigate(`gallery/${item.sys.id}`)}
             />
           </Grid>
         ))}
@@ -386,6 +388,7 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
+        onClick={() => navigate(`gallery/${symbiosisPhotos[0].sys.id}`)}
       >
         SIMBIOSIS
       </Typography>
@@ -406,7 +409,7 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`/gallery/${item.sys.id}`)}
+              onClick={() => navigate(`gallery/${item.sys.id}`)}
             />
           </Grid>
         ))}
@@ -420,6 +423,7 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
+        onClick={() => navigate(`gallery/${pandemicPhotos[0].sys.id}`)}
       >
         PANDEMIA
       </Typography>
@@ -440,7 +444,7 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`/gallery/${item.sys.id}`)}
+              onClick={() => navigate(`gallery/${item.sys.id}`)}
             />
           </Grid>
         ))}

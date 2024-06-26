@@ -1,7 +1,14 @@
-import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GalleryDisplayLoaderValue } from "../loaders/gallery-display-loader";
 import { extractPhotoId } from "../shared/utilities";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
@@ -87,8 +94,18 @@ const Gallery = () => {
 
 export const GalleryDisplay: React.FC = () => {
   const { mainPhoto } = useLoaderData() as GalleryDisplayLoaderValue;
+  const [loadedMainPhoto, setLoadedMainPhoto] = useState(false);
   const collectionName = mainPhoto?.fields.gallery.fields.name;
   const collectionDescription = mainPhoto?.fields.gallery.fields.description;
+  const mainPhotoUrl = mainPhoto?.fields.photo.fields.file.url;
+
+  useEffect(() => {
+    if (mainPhotoUrl) {
+      const img = new Image();
+      img.src = mainPhotoUrl;
+      img.onload = () => setLoadedMainPhoto(true);
+    }
+  }, [mainPhotoUrl]);
 
   return (
     <Box
@@ -117,17 +134,27 @@ export const GalleryDisplay: React.FC = () => {
         >
           {collectionDescription}
         </Typography>
-        <TransformWrapper>
-          <TransformComponent>
-            <img
-              height="auto"
-              width="100%"
-              src={mainPhoto?.fields.photo.fields.file.url}
-              alt={mainPhoto?.fields.photo.fields.title}
-              loading="lazy"
-            />
-          </TransformComponent>
-        </TransformWrapper>
+        {!loadedMainPhoto && (
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            height="auto"
+            sx={{ paddingTop: "75%" }}
+          />
+        )}
+        {loadedMainPhoto && (
+          <TransformWrapper>
+            <TransformComponent>
+              <img
+                height="auto"
+                width="100%"
+                src={mainPhotoUrl}
+                alt={mainPhoto?.fields.photo.fields.title}
+                loading="lazy"
+              />
+            </TransformComponent>
+          </TransformWrapper>
+        )}
         {mainPhoto?.fields.paintingData && (
           <Typography
             variant="caption"
