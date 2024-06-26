@@ -1,39 +1,36 @@
 import { Box, Typography, Grid } from "@mui/material";
+import { ManifiestoLoaderValue } from "../loaders/manifiesto-loader";
+import { useLoaderData } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 export const Manifiesto: React.FC = () => {
+  const manifiestoPage = useLoaderData() as ManifiestoLoaderValue;
+
   return (
     <Box width="100vw">
       <Typography
         align="center"
-        id="manifiesto"
         variant="h2"
         mt={2}
         fontWeight="bold"
+        sx={{
+          fontSize: "clamp(1rem, 10vw, 3rem)",
+          fontFamily: "Open Sans",
+        }}
       >
-        MANIFIESTO
+        {manifiestoPage.fields.title}
       </Typography>
       <Box paddingLeft={{ xs: "1rem", md: "10rem" }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} paddingRight={{ xs: "1rem", md: "6rem" }}>
-            <Typography mb={3} variant="body1">
-              En la vida, como en el arte, los detalles son los que nos
-              enriquecen y nos hacen apreciar verdaderamente la belleza que nos
-              rodea. Cada pequeña pincelada, cada sutileza en la textura, son
-              como los momentos que conforman nuestra existencia capturando las
-              emociones en ellas. Es en la atención a estos detalles en donde
-              encontramos el verdadero significado y la profundidad de la vida.
-            </Typography>
-            <Typography mb={3} variant="body1">
-              Al igual que una obra de arte en pequeño formato, la vida nos
-              presenta momentos que pueden parecer insignificantes a simple
-              vista. Pero al detenernos, al tomar el tiempo para observar con
-              atención, descubrimos la riqueza que se esconde en cada acento.
-            </Typography>
-            <Typography mb={3} variant="body1">
-              Al hacerlo, nos sumergimos en una experiencia inmersiva que nos
-              permite redescubrir el mundo que nos rodea, encontrar belleza en
-              lo inesperado y profundizar en nuestro entendimiento de nosotros
-              mismos.
+            <Typography
+              mb={3}
+              variant="body1"
+              sx={{
+                fontFamily: "Arimo",
+              }}
+            >
+              <ReactMarkdown>{manifiestoPage.fields.description}</ReactMarkdown>
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>

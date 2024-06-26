@@ -13,6 +13,8 @@ import { useStore } from "./store/store";
 import { useMemo } from "react";
 import { Locale } from "./shared/types";
 import "./fonts.css";
+import { ManifiestoLoader } from "./loaders/manifiesto-loader";
+import { AboutLoader } from "./loaders/about-loader";
 
 const router = (languageMode: Locale) =>
   createBrowserRouter([
@@ -31,10 +33,18 @@ const router = (languageMode: Locale) =>
         {
           path: "manifiesto",
           element: <Manifiesto />,
+          loader: async () => {
+            const loader = await ManifiestoLoader(languageMode);
+            return loader;
+          }
         },
         {
           path: "about",
           element: <About />,
+          loader: async () => {
+            const loader = await AboutLoader(languageMode);
+            return loader;
+          }
         },
         {
           path: "gallery/:entryId",

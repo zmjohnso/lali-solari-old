@@ -39,4 +39,15 @@ export interface PaintingData {
   };
 }
 
+export interface Manifiesto {
+  title: string;
+  description: string;
+}
+
+export interface About {
+  title: string;
+  description: string;
+  media: Photo[];
+}
+
 export type Locale = "en-US" | "es";
