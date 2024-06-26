@@ -22,6 +22,9 @@ export interface Gallery {
     name: string;
     description: string;
   };
+  sys: {
+    id: string;
+  };
 }
 
 export interface GalleryItem {

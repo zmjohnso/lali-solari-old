@@ -10,6 +10,6 @@ interface Actions {
 }
 
 export const useStore = create<State & Actions>()((set) => ({
-  languageMode: "en-US",
+  languageMode: "es",
   setLanguageMode: (mode) => set(() => ({ languageMode: mode })),
 }));

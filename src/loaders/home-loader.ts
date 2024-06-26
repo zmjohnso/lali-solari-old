@@ -1,11 +1,12 @@
 import { getClient } from "../services/contentful/client";
-import { GalleryItem } from "../shared/types";
+import { GalleryItem, Locale } from "../shared/types";
 import { extractPhotoId } from "../shared/utilities";
 
-export const HomeLoader = async () => {
+export const HomeLoader = async (languageMode: Locale) => {
   const client = getClient();
   const res = await client.getEntries<GalleryItem>({
     content_type: "galleryPhoto",
+    locale: languageMode,
   });
 
   const sortedItems = res.items.sort(

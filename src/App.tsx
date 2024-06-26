@@ -15,14 +15,17 @@ import { Locale } from "./shared/types";
 import "./fonts.css";
 import { ManifiestoLoader } from "./loaders/manifiesto-loader";
 import { AboutLoader } from "./loaders/about-loader";
+import { ExclusiveDesigns } from "./routes/exclusive-designs";
+import { Error } from "./routes/error";
 
 const router = (languageMode: Locale) =>
   createBrowserRouter([
     {
       path: "/",
       element: <Home />,
+      errorElement: <Error />,
       loader: async () => {
-        const loader = await HomeLoader();
+        const loader = await HomeLoader(languageMode);
         return loader;
       },
     },
@@ -36,7 +39,7 @@ const router = (languageMode: Locale) =>
           loader: async () => {
             const loader = await ManifiestoLoader(languageMode);
             return loader;
-          }
+          },
         },
         {
           path: "about",
@@ -44,7 +47,7 @@ const router = (languageMode: Locale) =>
           loader: async () => {
             const loader = await AboutLoader(languageMode);
             return loader;
-          }
+          },
         },
         {
           path: "gallery/:entryId",
@@ -54,6 +57,10 @@ const router = (languageMode: Locale) =>
             const loader = await GalleryDisplayLoader(languageMode, entryId);
             return loader;
           },
+        },
+        {
+          path: "exclusive-designs",
+          element: <ExclusiveDesigns />,
         },
       ],
     },

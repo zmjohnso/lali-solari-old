@@ -3,7 +3,6 @@ import {
   Typography,
   Grid,
   Slide,
-  useTheme,
   Container,
   Skeleton,
 } from "@mui/material";
@@ -23,8 +22,6 @@ const LazyImage: React.FC<LazyImageProps> = ({
   onClick,
   ...props
 }) => {
-  const [loaded, setLoaded] = useState(false);
-
   return (
     <div
       style={{
@@ -33,27 +30,14 @@ const LazyImage: React.FC<LazyImageProps> = ({
         justifyContent: "center",
       }}
     >
-      {!loaded && (
-        <Skeleton
-          variant="rectangular"
-          width="100%"
-          height="auto"
-          style={{ paddingTop: "75%" }} // This maintains the aspect ratio while loading
-        />
-      )}
       <img
         src={src}
         alt={alt}
-        onLoad={() => setLoaded(true)}
         onClick={onClick}
-        onMouseOver={(e) =>
-          (e.currentTarget.style.transform = "scale(1.05)")
-        }
-        onMouseOut={(e) =>
-          (e.currentTarget.style.transform = "scale(1)")
-        }
+        onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+        onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
         style={{
-          display: loaded ? "block" : "none",
+          display: "block",
           cursor: "pointer",
           maxWidth: "100%",
           maxHeight: "100%",
@@ -70,7 +54,6 @@ const LazyImage: React.FC<LazyImageProps> = ({
 
 export const Home: React.FC = () => {
   const homePage = useLoaderData() as HomeLoaderValue;
-  const theme = useTheme();
   const navigate = useNavigate();
   const [inViewL1, setInViewL1] = useState(false);
   const [inViewL2, setInViewL2] = useState(false);
@@ -78,20 +61,40 @@ export const Home: React.FC = () => {
   const slideRefL1 = useRef(null);
   const slideRefL2 = useRef(null);
   const slideRefED = useRef(null);
+  const [loadedArPhotos, setLoadedArPhotos] = useState(false);
 
-  // this works, but how to make types happy?
+  console.log({ homePage });
+
   const arPhotos = homePage.filter(
-    (x) => x.fields.gallery.fields.name === "ABSTRACT REVERBERATIONS"
+    (x) => x.fields.gallery.sys.id === "5fEPCQ6vimuUf1Ps82KcAp"
   );
   const symbiosisPhotos = homePage.filter(
-    (x) => x.fields.gallery.fields.name === "SYMBIOSIS"
+    (x) => x.fields.gallery.sys.id === "42VUVtuIaLuzxexiB1JgMW"
   );
   const pandemicPhotos = homePage.filter(
-    (x) => x.fields.gallery.fields.name === "PANDEMIC"
+    (x) => x.fields.gallery.sys.id === "6VOr5XDiSSfaIKId58ABnw"
   );
   const rootsPhotos = homePage.filter(
-    (x) => x.fields.gallery.fields.name === "ROOTS"
+    (x) => x.fields.gallery.sys.id === "1TwAKieiOmnU6LL4tWEWrV"
   );
+
+  const abstractReverberationsName =
+    arPhotos.length && arPhotos[0].fields.gallery.fields.name;
+  const symbiosisName =
+    symbiosisPhotos.length && symbiosisPhotos[0].fields.gallery.fields.name;
+  const pandemicName =
+    pandemicPhotos.length && pandemicPhotos[0].fields.gallery.fields.name;
+  const rootsName =
+    rootsPhotos.length && rootsPhotos[0].fields.gallery.fields.name;
+
+  useEffect(() => {
+    if (arPhotos) {
+      const img = new Image();
+      img.src = arPhotos[0].fields.thumbnail.fields.file.url;
+      img.onload = () => setLoadedArPhotos(true);
+    }
+  }, [arPhotos]);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -221,7 +224,7 @@ export const Home: React.FC = () => {
         <Slide
           direction="left"
           in={inViewL1}
-          timeout={{ enter: 2500, exit: 300 }}
+          timeout={{ enter: 2000, exit: 300 }}
           easing="ease-in-out"
         >
           <Typography
@@ -246,7 +249,7 @@ export const Home: React.FC = () => {
         <Slide
           direction="right"
           in={inViewL2}
-          timeout={{ enter: 2000, exit: 300 }}
+          timeout={{ enter: 1500, exit: 300 }}
           easing="ease-in-out"
         >
           <Typography
@@ -268,7 +271,7 @@ export const Home: React.FC = () => {
         <Slide
           direction="left"
           in={inViewL2}
-          timeout={{ enter: 1500, exit: 300 }}
+          timeout={{ enter: 1000, exit: 300 }}
           easing="ease-in-out"
         >
           <Typography
@@ -292,19 +295,23 @@ export const Home: React.FC = () => {
         <Slide
           direction="left"
           in={inViewED}
-          timeout={{ enter: 1500, exit: 300 }}
+          timeout={{ enter: 1000, exit: 300 }}
           easing="ease-in-out"
         >
           <Typography
             variant="h2"
-            color={theme.palette.text.disabled}
             sx={{
               fontSize: "clamp(0.5rem, 6vw, 8rem)",
               fontWeight: "bold",
               fontStyle: "italic",
               fontFamily: "Bison",
               marginLeft: { xs: "8rem", md: "21rem" },
+              "&:hover": {
+                color: "#3bff00",
+                cursor: "pointer",
+              },
             }}
+            onClick={() => navigate("exclusive-designs")}
           >
             EXCLUSIVE DESIGNS
           </Typography>
@@ -320,7 +327,7 @@ export const Home: React.FC = () => {
         }}
         onClick={() => navigate(`gallery/${arPhotos[0].sys.id}`)}
       >
-        ABSTRACT REVERBERATIONS
+        {abstractReverberationsName}
       </Typography>
       <Grid container spacing={2}>
         {arPhotos.map((item) => (
@@ -334,13 +341,23 @@ export const Home: React.FC = () => {
               justifyContent: "center",
             }}
           >
-            <LazyImage
-              src={item.fields.thumbnail.fields.file.url}
-              alt={item.fields.thumbnail.fields.title}
-              width="100%"
-              height="auto"
-              onClick={() => navigate(`/gallery/${item.sys.id}`)}
-            />
+            {!loadedArPhotos && (
+              <Skeleton
+                variant="rectangular"
+                width="100%"
+                height="auto"
+                sx={{ paddingTop: "75%" }}
+              />
+            )}
+            {loadedArPhotos && (
+              <LazyImage
+                src={item.fields.thumbnail.fields.file.url}
+                alt={item.fields.thumbnail.fields.title}
+                width="100%"
+                height="auto"
+                onClick={() => navigate(`gallery/${item.sys.id}`)}
+              />
+            )}
           </Grid>
         ))}
       </Grid>
@@ -355,7 +372,7 @@ export const Home: React.FC = () => {
         }}
         onClick={() => navigate(`gallery/${rootsPhotos[0].sys.id}`)}
       >
-        RAICES
+        {rootsName}
       </Typography>
       <Grid container spacing={2}>
         {rootsPhotos.map((item) => (
@@ -390,7 +407,7 @@ export const Home: React.FC = () => {
         }}
         onClick={() => navigate(`gallery/${symbiosisPhotos[0].sys.id}`)}
       >
-        SIMBIOSIS
+        {symbiosisName}
       </Typography>
       <Grid container spacing={2}>
         {symbiosisPhotos.map((item) => (
@@ -425,7 +442,7 @@ export const Home: React.FC = () => {
         }}
         onClick={() => navigate(`gallery/${pandemicPhotos[0].sys.id}`)}
       >
-        PANDEMIA
+        {pandemicName}
       </Typography>
       <Grid container spacing={2}>
         {pandemicPhotos.map((item) => (
