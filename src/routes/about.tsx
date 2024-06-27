@@ -42,6 +42,7 @@ export const About: React.FC = () => {
           <Box marginRight="1rem" marginLeft="1rem">
             <Typography
               mb={3}
+              component="div"
               variant="body1"
               sx={{
                 fontFamily: "Arimo",

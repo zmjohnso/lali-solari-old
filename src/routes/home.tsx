@@ -63,8 +63,6 @@ export const Home: React.FC = () => {
   const slideRefED = useRef(null);
   const [loadedArPhotos, setLoadedArPhotos] = useState(false);
 
-  console.log({ homePage });
-
   const arPhotos = homePage.filter(
     (x) => x.fields.gallery.sys.id === "5fEPCQ6vimuUf1Ps82KcAp"
   );

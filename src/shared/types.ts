@@ -42,9 +42,10 @@ export interface PaintingData {
   };
 }
 
-export interface Manifiesto {
+export interface Manifesto {
   title: string;
   description: string;
+  media: Photo[];
 }
 
 export interface About {

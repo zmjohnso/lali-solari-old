@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "./routes/layout";
 import { Home } from "./routes/home";
-import { Manifiesto } from "./routes/manifiest";
+import { Manifesto } from "./routes/manifesto";
 import { About } from "./routes/about";
 import { GalleryDisplay } from "./routes/gallery-display";
 import "@fontsource/bebas-neue";
@@ -13,7 +13,7 @@ import { useStore } from "./store/store";
 import { useMemo } from "react";
 import { Locale } from "./shared/types";
 import "./fonts.css";
-import { ManifiestoLoader } from "./loaders/manifiesto-loader";
+import { ManifestoLoader } from "./loaders/manifesto-loader";
 import { AboutLoader } from "./loaders/about-loader";
 import { ExclusiveDesigns } from "./routes/exclusive-designs";
 import { Error } from "./routes/error";
@@ -35,9 +35,9 @@ const router = (languageMode: Locale) =>
       children: [
         {
           path: "manifiesto",
-          element: <Manifiesto />,
+          element: <Manifesto />,
           loader: async () => {
-            const loader = await ManifiestoLoader(languageMode);
+            const loader = await ManifestoLoader(languageMode);
             return loader;
           },
         },
