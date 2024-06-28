@@ -9,14 +9,14 @@ export const Manifesto: React.FC = () => {
   return (
     <Box width="100vw">
       <Typography
+        variant="h3"
         align="center"
-        variant="h2"
-        mt={2}
         fontWeight="bold"
         sx={{
           fontSize: "clamp(1rem, 10vw, 3rem)",
           fontFamily: "Open Sans",
         }}
+        mt={2}
       >
         {manifestoPage.fields.title}
       </Typography>

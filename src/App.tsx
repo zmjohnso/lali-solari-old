@@ -17,6 +17,7 @@ import { ManifestoLoader } from "./loaders/manifesto-loader";
 import { AboutLoader } from "./loaders/about-loader";
 import { ExclusiveDesigns } from "./routes/exclusive-designs";
 import { Error } from "./routes/error";
+import { Contact } from "./routes/contact";
 
 const router = (languageMode: Locale) =>
   createBrowserRouter([
@@ -61,6 +62,10 @@ const router = (languageMode: Locale) =>
         {
           path: "exclusive-designs",
           element: <ExclusiveDesigns />,
+        },
+        {
+          path: "contact",
+          element: <Contact />,
         },
       ],
     },

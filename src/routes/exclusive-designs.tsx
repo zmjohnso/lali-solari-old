@@ -15,11 +15,10 @@ export const ExclusiveDesigns: React.FC = () => {
         EXCLUSIVE DESIGNS
       </Typography>
       <Typography
-        variant="h3"
+        variant="h5"
         align="center"
-        fontWeight="bold"
         mt={15}
-        sx={{ fontSize: "clamp(1rem, 10vw, 3rem)", fontFamily: "Open Sans" }}
+        sx={{ fontSize: "clamp(1rem, 10vw, 3rem)", fontFamily: "Arimo" }}
       >
         Coming Soon
       </Typography>

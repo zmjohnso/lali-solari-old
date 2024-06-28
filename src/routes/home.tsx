@@ -58,9 +58,11 @@ export const Home: React.FC = () => {
   const [inViewL1, setInViewL1] = useState(false);
   const [inViewL2, setInViewL2] = useState(false);
   const [inViewED, setInViewED] = useState(false);
+  const [inViewContact, setInViewContact] = useState(false);
   const slideRefL1 = useRef(null);
   const slideRefL2 = useRef(null);
   const slideRefED = useRef(null);
+  const slideRefContact = useRef(null);
   const [loadedArPhotos, setLoadedArPhotos] = useState(false);
 
   const arPhotos = homePage.filter(
@@ -161,6 +163,30 @@ export const Home: React.FC = () => {
     return () => {
       if (slideRefED.current) {
         observer.unobserve(slideRefED.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setInViewContact(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.9 } // You can adjust the threshold to control when the animation starts
+    );
+
+    if (slideRefContact.current) {
+      observer.observe(slideRefContact.current);
+    }
+
+    return () => {
+      if (slideRefContact.current) {
+        observer.unobserve(slideRefContact.current);
       }
     };
   }, []);
@@ -278,7 +304,7 @@ export const Home: React.FC = () => {
               fontWeight: "bold",
               fontStyle: "italic",
               fontFamily: "Bison",
-              fontSize: "clamp(2rem, 11vw, 13rem)",
+              fontSize: "clamp(2rem, 16vw, 18rem)",
               "&:hover": {
                 color: "#3bff00",
                 cursor: "pointer",
@@ -286,6 +312,31 @@ export const Home: React.FC = () => {
             }}
           >
             GALLERY
+          </Typography>
+        </Slide>
+      </Box>
+      <Box ref={slideRefContact}>
+        <Slide
+          direction="right"
+          in={inViewContact}
+          timeout={{ enter: 1300, exit: 300 }}
+          easing="ease-in-out"
+        >
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: "clamp(2rem, 11vw, 18rem)",
+              fontWeight: "bold",
+              fontFamily: "Bebas Neue",
+              marginRight: { xs: "2rem", md: "4rem" },
+              "&:hover": {
+                color: "#3bff00",
+                cursor: "pointer",
+              },
+            }}
+            onClick={() => navigate("contact")}
+          >
+            CONTACT
           </Typography>
         </Slide>
       </Box>

@@ -9,7 +9,7 @@ export const About: React.FC = () => {
   return (
     <Box width="100vw" mt={2}>
       <Typography
-        variant="h2"
+        variant="h3"
         align="center"
         fontWeight="bold"
         sx={{
