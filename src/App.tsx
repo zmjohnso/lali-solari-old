@@ -18,6 +18,13 @@ import { AboutLoader } from "./loaders/about-loader";
 import { ExclusiveDesigns } from "./routes/exclusive-designs";
 import { Error } from "./routes/error";
 import { Contact } from "./routes/contact";
+import { ThemeProvider, createTheme } from "@mui/material";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: ["Open Sans", "Bebas Neue", "Bison", "Arimo"].join(","),
+  },
+});
 
 const router = (languageMode: Locale) =>
   createBrowserRouter([
@@ -83,7 +90,11 @@ function App() {
     setLanguageMode(currentLanguage === "en" ? "en-US" : "es");
   }, [currentLanguage, setLanguageMode]);
 
-  return <RouterProvider router={router(languageMode)} />;
+  return (
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router(languageMode)} />;
+    </ThemeProvider>
+  );
 }
 
 export default App;
