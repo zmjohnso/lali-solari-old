@@ -23,6 +23,12 @@ import { ThemeProvider, createTheme } from "@mui/material";
 const theme = createTheme({
   typography: {
     fontFamily: ["Open Sans", "Bebas Neue", "Bison", "Arimo"].join(","),
+    h2: {
+      fontFamily: "Bison", // Ensure Bison is used for h2 elements
+    },
+    h4: {
+      fontFamily: "Bison", // Ensure Bison is used for h4 elements
+    },
   },
 });
 

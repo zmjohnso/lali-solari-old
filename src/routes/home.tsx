@@ -22,6 +22,8 @@ const LazyImage: React.FC<LazyImageProps> = ({
   onClick,
   ...props
 }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <div
       style={{
@@ -30,6 +32,14 @@ const LazyImage: React.FC<LazyImageProps> = ({
         justifyContent: "center",
       }}
     >
+      {!imageLoaded && (
+        <Skeleton
+          variant="rectangular"
+          width="100%"
+          height="auto"
+          sx={{ paddingTop: "75%" }}
+        />
+      )}
       <img
         src={src}
         alt={alt}
@@ -37,7 +47,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
         onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
         onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
         style={{
-          display: "block",
+          display: imageLoaded ? "block" : "none",
           cursor: "pointer",
           maxWidth: "100%",
           maxHeight: "100%",
@@ -46,6 +56,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
           transition: "transform 0.3s",
           flexShrink: 0,
         }}
+        onLoad={() => setImageLoaded(true)}
         {...props}
       />
     </div>
@@ -63,7 +74,6 @@ export const Home: React.FC = () => {
   const slideRefL2 = useRef(null);
   const slideRefED = useRef(null);
   const slideRefContact = useRef(null);
-  const [loadedArPhotos, setLoadedArPhotos] = useState(false);
 
   const arPhotos = homePage.filter(
     (x) => x.fields.gallery.sys.id === "5fEPCQ6vimuUf1Ps82KcAp"
@@ -86,14 +96,6 @@ export const Home: React.FC = () => {
     pandemicPhotos.length && pandemicPhotos[0].fields.gallery.fields.name;
   const rootsName =
     rootsPhotos.length && rootsPhotos[0].fields.gallery.fields.name;
-
-  useEffect(() => {
-    if (arPhotos) {
-      const img = new Image();
-      img.src = arPhotos[0].fields.thumbnail.fields.file.url;
-      img.onload = () => setLoadedArPhotos(true);
-    }
-  }, [arPhotos]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -390,23 +392,13 @@ export const Home: React.FC = () => {
               justifyContent: "center",
             }}
           >
-            {!loadedArPhotos && (
-              <Skeleton
-                variant="rectangular"
-                width="100%"
-                height="auto"
-                sx={{ paddingTop: "75%" }}
-              />
-            )}
-            {loadedArPhotos && (
-              <LazyImage
-                src={item.fields.thumbnail.fields.file.url}
-                alt={item.fields.thumbnail.fields.title}
-                width="100%"
-                height="auto"
-                onClick={() => navigate(`gallery/${item.sys.id}`)}
-              />
-            )}
+            <LazyImage
+              src={item.fields.thumbnail.fields.file.url}
+              alt={item.fields.thumbnail.fields.title}
+              width="100%"
+              height="auto"
+              onClick={() => navigate(`gallery/${item.sys.id}`)}
+            />
           </Grid>
         ))}
       </Grid>
