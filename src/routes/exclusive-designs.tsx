@@ -12,6 +12,7 @@ export const ExclusiveDesigns: React.FC = () => {
           fontFamily: "Open Sans",
         }}
         mt={2}
+        lang="en"
       >
         EXCLUSIVE DESIGNS
       </Typography>
@@ -20,6 +21,7 @@ export const ExclusiveDesigns: React.FC = () => {
         align="center"
         mt={15}
         sx={{ fontSize: "clamp(1rem, 10vw, 3rem)", fontFamily: "Arimo" }}
+        lang="en"
       >
         Coming Soon
       </Typography>

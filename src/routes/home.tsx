@@ -240,6 +240,7 @@ export const Home: React.FC = () => {
                 fontSize: "clamp(0.5rem, 1.25vw, 6rem)",
                 fontFamily: "Open Sans",
               }}
+              lang="en"
             >
               FINE ARTS & EXCLUSIVE DESIGNS
             </Typography>
@@ -265,9 +266,10 @@ export const Home: React.FC = () => {
               },
             }}
             ml={{ xs: 10, md: 30 }}
-            onClick={() => navigate("/manifiesto")}
+            onClick={() => navigate("/manifesto")}
+            lang="en"
           >
-            MANIFIESTO
+            MANIFESTO
           </Typography>
         </Slide>
       </Box>
@@ -290,6 +292,7 @@ export const Home: React.FC = () => {
               },
             }}
             onClick={() => navigate("/about")}
+            lang="en"
           >
             ABOUT
           </Typography>
@@ -312,6 +315,7 @@ export const Home: React.FC = () => {
                 cursor: "pointer",
               },
             }}
+            lang="en"
           >
             GALLERY
           </Typography>
@@ -337,6 +341,7 @@ export const Home: React.FC = () => {
               },
             }}
             onClick={() => navigate("contact")}
+            lang="en"
           >
             CONTACT
           </Typography>
@@ -363,6 +368,7 @@ export const Home: React.FC = () => {
               },
             }}
             onClick={() => navigate("exclusive-designs")}
+            lang="en"
           >
             EXCLUSIVE DESIGNS
           </Typography>

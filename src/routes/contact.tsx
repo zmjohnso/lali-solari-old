@@ -24,6 +24,7 @@ export const Contact: React.FC = () => {
             mb: 2,
             fontSize: "clamp(2rem, 5vw, 4rem)",
           }}
+          lang="en"
         >
           Contact
         </Typography>

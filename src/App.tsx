@@ -48,7 +48,7 @@ const router = (languageMode: Locale) =>
       element: <Layout />,
       children: [
         {
-          path: "manifiesto",
+          path: "manifesto",
           element: <Manifesto />,
           loader: async () => {
             const loader = await ManifestoLoader(languageMode);

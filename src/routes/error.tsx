@@ -24,6 +24,7 @@ export const Error: React.FC = () => {
           variant="h4"
           sx={{ fontFamily: "Bison", fontSize: "clamp(2rem, 5vw, 4rem)" }}
           gutterBottom
+          lang="en"
         >
           Oops! Something went wrong.
         </Typography>
@@ -31,6 +32,7 @@ export const Error: React.FC = () => {
           variant="body1"
           sx={{ fontSize: "clamp(1rem, 2vw, 1.5rem)", fontFamily: "Open Sans" }}
           gutterBottom
+          lang="en"
         >
           We couldn't find the page you were looking for. It might have been
           removed, or you may have mistyped the address.
@@ -40,6 +42,7 @@ export const Error: React.FC = () => {
           color="primary"
           sx={{ mt: 2 }}
           onClick={handleBackHomeClick}
+          lang="en"
         >
           Back to Home
         </Button>

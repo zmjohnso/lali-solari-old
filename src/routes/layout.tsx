@@ -11,12 +11,15 @@ import {
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TranslateIcon from "@mui/icons-material/Translate";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "../store/store";
 
 export const Layout: React.FC = () => {
   const navigate = useNavigate();
-  const [setLanguageMode] = useStore((state) => [state.setLanguageMode]);
+  const [languageMode, setLanguageMode] = useStore((state) => [
+    state.languageMode,
+    state.setLanguageMode,
+  ]);
   const [translateAnchorEl, setTranslateMenuAnchorEl] =
     useState<null | HTMLElement>(null);
   const translateOpen = Boolean(translateAnchorEl);
@@ -29,6 +32,12 @@ export const Layout: React.FC = () => {
   ) => {
     setTranslateMenuAnchorEl(event.currentTarget);
   };
+
+  useEffect(() => {
+    // Update the lang attribute on the <html> element whenever the currentLanguage changes
+    const rootHTMLlang = languageMode === "en-US" ? "en" : "es";
+    document.documentElement.lang = rootHTMLlang;
+  }, [languageMode]);
 
   const handleLanguageMode = (currentLanguage: string) => {
     const newLanguageMode = currentLanguage === "English" ? "en-US" : "es";
@@ -88,6 +97,7 @@ export const Layout: React.FC = () => {
                   fontSize: "clamp(0.5rem, 1.25vw, 6rem)",
                   fontFamily: "Open Sans",
                 }}
+                lang="en"
               >
                 FINE ARTS & EXCLUSIVE DESIGNS
               </Typography>
