@@ -15,6 +15,8 @@ export const Manifesto: React.FC = () => {
         sx={{
           fontSize: "clamp(1rem, 10vw, 3rem)",
           fontFamily: "Open Sans",
+          textTransform: "uppercase",
+          letterSpacing: "-0.05em",
         }}
         mt={2}
       >

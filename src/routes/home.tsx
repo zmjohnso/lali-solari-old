@@ -97,6 +97,14 @@ export const Home: React.FC = () => {
   const rootsName =
     rootsPhotos.length && rootsPhotos[0].fields.gallery.fields.name;
 
+  const handleEtsyClick = () => {
+    window.open(
+      "https://www.etsy.com/es/shop/Lalisolariart",
+      "_blank",
+      "noopener noreferrer"
+    );
+  };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -315,6 +323,7 @@ export const Home: React.FC = () => {
                 cursor: "pointer",
               },
             }}
+            onClick={handleEtsyClick}
             lang="en"
           >
             GALLERY

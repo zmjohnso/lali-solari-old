@@ -15,6 +15,8 @@ export const About: React.FC = () => {
         sx={{
           fontSize: "clamp(1rem, 10vw, 3rem)",
           fontFamily: "Open Sans",
+          textTransform: "uppercase",
+          letterSpacing: "-0.05em",
         }}
       >
         {aboutPage.fields.title}

@@ -12,17 +12,27 @@ import { useEffect, useState } from "react";
 import { GalleryDisplayLoaderValue } from "../loaders/gallery-display-loader";
 import { extractPhotoId } from "../shared/utilities";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { Entry } from "contentful";
+import { GalleryItem } from "../shared/types";
 
-const Gallery = () => {
-  const { mainPhoto, galleryItems } =
-    useLoaderData() as GalleryDisplayLoaderValue;
+interface GalleryProps {
+  mainPhoto: Entry<GalleryItem> | undefined;
+  galleryItems: Entry<GalleryItem>[];
+}
+
+const Gallery: React.FC<GalleryProps> = ({ mainPhoto, galleryItems }) => {
   const navigate = useNavigate();
   const itemsToShow = 5;
 
   const photoId = extractPhotoId(mainPhoto?.fields.title || "");
-
   const initialIndex = Math.floor(photoId / itemsToShow) * itemsToShow;
+
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+
+  useEffect(() => {
+    const newPhotoId = extractPhotoId(mainPhoto?.fields.title || "");
+    setCurrentIndex(Math.floor(newPhotoId / itemsToShow) * itemsToShow);
+  }, [mainPhoto, itemsToShow]);
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
@@ -41,7 +51,7 @@ const Gallery = () => {
 
   return (
     <Grid container alignItems="center">
-      {galleryItems.length > 5 && (
+      {galleryItems.length > itemsToShow && (
         <Grid item>
           <IconButton onClick={handlePrevious} disabled={currentIndex === 0}>
             <ArrowBack />
@@ -78,7 +88,7 @@ const Gallery = () => {
           ))}
         </Grid>
       </Grid>
-      {galleryItems.length > 5 && (
+      {galleryItems.length > itemsToShow && (
         <Grid item>
           <IconButton
             onClick={handleNext}
@@ -93,11 +103,19 @@ const Gallery = () => {
 };
 
 export const GalleryDisplay: React.FC = () => {
-  const { mainPhoto } = useLoaderData() as GalleryDisplayLoaderValue;
+  const { mainPhoto, galleryItems } =
+    useLoaderData() as GalleryDisplayLoaderValue;
+  const navigate = useNavigate();
   const [loadedMainPhoto, setLoadedMainPhoto] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(
+    galleryItems.findIndex((item) => item.sys.id === mainPhoto?.sys.id)
+  );
+
   const collectionName = mainPhoto?.fields.gallery.fields.name;
   const collectionDescription = mainPhoto?.fields.gallery.fields.description;
-  const mainPhotoUrl = mainPhoto?.fields.photo.fields.file.url;
+  const mainPhotoUrl = galleryItems[currentIndex]?.fields.photo.fields.file.url;
+  const mainPhotoTitle = galleryItems[currentIndex]?.fields.photo.fields.title;
+  const mainPhotoPaintingData = galleryItems[currentIndex]?.fields.paintingData;
 
   useEffect(() => {
     if (mainPhotoUrl) {
@@ -107,15 +125,30 @@ export const GalleryDisplay: React.FC = () => {
     }
   }, [mainPhotoUrl]);
 
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prevIndex) => prevIndex - 1);
+      navigate(`/gallery/${galleryItems[currentIndex - 1].sys.id}`);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < galleryItems.length - 1) {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+      navigate(`/gallery/${galleryItems[currentIndex + 1].sys.id}`);
+    }
+  };
+
   return (
     <Box
       paddingX={{ xs: "1rem", md: "10rem" }}
       paddingTop={{ xs: "0.5rem", md: "5rem" }}
     >
-      <Stack spacing={{ xs: 2, md: 4 }} mb={5}>
+      <Stack mb={5}>
         <Typography
           variant="h3"
           fontWeight="bold"
+          mb={4}
           sx={{
             fontSize: "clamp(1rem, 10vw, 3rem)",
             fontFamily: "Open Sans",
@@ -126,6 +159,7 @@ export const GalleryDisplay: React.FC = () => {
         <Typography
           variant="body1"
           width={{ xs: "22rem", md: "30rem" }}
+          mb={3}
           sx={{
             display: "flex",
             alignSelf: "center",
@@ -134,39 +168,70 @@ export const GalleryDisplay: React.FC = () => {
         >
           {collectionDescription}
         </Typography>
-        {!loadedMainPhoto && (
-          <Skeleton
-            variant="rectangular"
-            width="100%"
-            height="auto"
-            sx={{ paddingTop: "75%" }}
-          />
-        )}
-        {loadedMainPhoto && (
-          <TransformWrapper>
-            <TransformComponent>
-              <img
-                height="auto"
-                width="100%"
-                src={mainPhotoUrl}
-                alt={mainPhoto?.fields.photo.fields.title}
-                loading="lazy"
-              />
-            </TransformComponent>
-          </TransformWrapper>
-        )}
-        {mainPhoto?.fields.paintingData && (
-          <Typography
-            variant="caption"
-            display="flex"
-            justifyContent="flex-end"
-            sx={{ marginTop: "0.5rem !important", fontFamily: "Arimo" }} // override default margin from the stack
-          >
-            {mainPhoto?.fields.paintingData.fields.size}{" "}
-            {mainPhoto?.fields.paintingData.fields.technique}
-          </Typography>
-        )}
-        <Gallery />
+        <Grid container alignItems="center" spacing={2} mb={3}>
+          <Grid item>
+            <IconButton onClick={handlePrevious} disabled={currentIndex === 0}>
+              <ArrowBack />
+            </IconButton>
+          </Grid>
+          <Grid item xs>
+            <Box position="relative" width="100%">
+              {!loadedMainPhoto && (
+                <Skeleton
+                  variant="rectangular"
+                  width="100%"
+                  height="auto"
+                  sx={{ paddingTop: "75%" }}
+                />
+              )}
+              {loadedMainPhoto && (
+                <TransformWrapper>
+                  <TransformComponent>
+                    <img
+                      height="auto"
+                      width="100%"
+                      src={mainPhotoUrl}
+                      alt={mainPhotoTitle}
+                      loading="lazy"
+                      style={{
+                        display: "block",
+                        margin: "0 auto",
+                      }}
+                    />
+                  </TransformComponent>
+                </TransformWrapper>
+              )}
+              {mainPhotoPaintingData && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    fontFamily: "Arimo",
+                    marginTop: "0.5rem",
+                    paddingRight: "1rem",
+                  }}
+                >
+                  {mainPhotoPaintingData.fields.size}{" "}
+                  {mainPhotoPaintingData.fields.technique}
+                </Typography>
+              )}
+            </Box>
+          </Grid>
+          <Grid item>
+            <IconButton
+              onClick={handleNext}
+              disabled={currentIndex >= galleryItems.length - 1}
+            >
+              <ArrowForward />
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Gallery
+          key={mainPhoto?.sys.id}
+          mainPhoto={mainPhoto}
+          galleryItems={galleryItems}
+        />
       </Stack>
     </Box>
   );
