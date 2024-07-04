@@ -14,8 +14,10 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useStore } from "../store/store";
 import { handleInstagramClick } from "../shared/utilities";
+import { useTranslation } from "react-i18next";
 
 export const Layout: React.FC = () => {
+  const { i18n } = useTranslation();
   const navigate = useNavigate();
   const [languageMode, setLanguageMode] = useStore((state) => [
     state.languageMode,
@@ -42,6 +44,8 @@ export const Layout: React.FC = () => {
 
   const handleLanguageMode = (currentLanguage: string) => {
     const newLanguageMode = currentLanguage === "English" ? "en-US" : "es";
+    const i18nLanguageFormat = currentLanguage === "English" ? "en" : "es";
+    i18n.changeLanguage(i18nLanguageFormat);
     setLanguageMode(newLanguageMode);
   };
 

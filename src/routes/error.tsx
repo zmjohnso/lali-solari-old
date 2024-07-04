@@ -2,8 +2,10 @@ import React from "react";
 import { Box, Button, Container, Typography } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export const Error: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleBackHomeClick = () => {
@@ -26,7 +28,7 @@ export const Error: React.FC = () => {
           gutterBottom
           lang="en"
         >
-          Oops! Something went wrong.
+          {t("error.title")}
         </Typography>
         <Typography
           variant="body1"
@@ -34,8 +36,7 @@ export const Error: React.FC = () => {
           gutterBottom
           lang="en"
         >
-          We couldn't find the page you were looking for. It might have been
-          removed, or you may have mistyped the address.
+          {t("error.body")}
         </Typography>
         <Button
           variant="contained"
@@ -44,7 +45,7 @@ export const Error: React.FC = () => {
           onClick={handleBackHomeClick}
           lang="en"
         >
-          Back to Home
+          {t("error.backHome")}
         </Button>
       </Box>
     </Container>

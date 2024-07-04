@@ -16,6 +16,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { HomeLoaderValue } from "../loaders/home-loader";
 import { handleInstagramClick } from "../shared/utilities";
 import { useStore } from "../store/store";
+import { useTranslation } from "react-i18next";
 
 interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -71,6 +72,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
 };
 
 export const Home: React.FC = () => {
+  const { i18n } = useTranslation();
   const homePage = useLoaderData() as HomeLoaderValue;
   const navigate = useNavigate();
   const [inViewL1, setInViewL1] = useState(false);
@@ -107,6 +109,8 @@ export const Home: React.FC = () => {
 
   const handleLanguageMode = (currentLanguage: string) => {
     const newLanguageMode = currentLanguage === "English" ? "en-US" : "es";
+    const i18nLanguageFormat = currentLanguage === "English" ? "en" : "es";
+    i18n.changeLanguage(i18nLanguageFormat);
     setLanguageMode(newLanguageMode);
   };
 
