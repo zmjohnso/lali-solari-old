@@ -9,4 +9,12 @@ export const extractPhotoId = (input: string): number => {
   // Check if the parsed result is a valid number
   // if so, return the number - 1 (zero-indexed), else return 0
   return isNaN(number) ? 0 : number - 1;
-}
+};
+
+export const handleInstagramClick = () => {
+  window.open(
+    "https://www.instagram.com/lalisolariart/",
+    "_blank",
+    "noopener noreferrer"
+  );
+};

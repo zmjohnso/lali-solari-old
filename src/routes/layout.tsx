@@ -13,6 +13,7 @@ import TranslateIcon from "@mui/icons-material/Translate";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useStore } from "../store/store";
+import { handleInstagramClick } from "../shared/utilities";
 
 export const Layout: React.FC = () => {
   const navigate = useNavigate();
@@ -45,14 +46,6 @@ export const Layout: React.FC = () => {
   };
 
   const languageOptions = ["English", "castellano"];
-
-  const handleInstagramClick = () => {
-    window.open(
-      "https://www.instagram.com/lalisolariart/",
-      "_blank",
-      "noopener noreferrer"
-    );
-  };
 
   return (
     <Box

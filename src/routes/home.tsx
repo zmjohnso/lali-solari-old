@@ -3,12 +3,19 @@ import {
   Typography,
   Grid,
   Slide,
-  Container,
   Skeleton,
+  IconButton,
+  Menu,
+  MenuItem,
+  Container,
 } from "@mui/material";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TranslateIcon from "@mui/icons-material/Translate";
 import { useState, useEffect, useRef, ImgHTMLAttributes } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { HomeLoaderValue } from "../loaders/home-loader";
+import { handleInstagramClick } from "../shared/utilities";
+import { useStore } from "../store/store";
 
 interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -74,6 +81,36 @@ export const Home: React.FC = () => {
   const slideRefL2 = useRef(null);
   const slideRefED = useRef(null);
   const slideRefContact = useRef(null);
+
+  const [languageMode, setLanguageMode] = useStore((state) => [
+    state.languageMode,
+    state.setLanguageMode,
+  ]);
+  const [translateAnchorEl, setTranslateMenuAnchorEl] =
+    useState<null | HTMLElement>(null);
+  const translateOpen = Boolean(translateAnchorEl);
+
+  const handleTranslateMenuClose = () => {
+    setTranslateMenuAnchorEl(null);
+  };
+  const handleTranslateMenuClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setTranslateMenuAnchorEl(event.currentTarget);
+  };
+
+  useEffect(() => {
+    // Update the lang attribute on the <html> element whenever the currentLanguage changes
+    const rootHTMLlang = languageMode === "en-US" ? "en" : "es";
+    document.documentElement.lang = rootHTMLlang;
+  }, [languageMode]);
+
+  const handleLanguageMode = (currentLanguage: string) => {
+    const newLanguageMode = currentLanguage === "English" ? "en-US" : "es";
+    setLanguageMode(newLanguageMode);
+  };
+
+  const languageOptions = ["English", "castellano"];
 
   const arPhotos = homePage.filter(
     (x) => x.fields.gallery.sys.id === "5fEPCQ6vimuUf1Ps82KcAp"
@@ -207,54 +244,93 @@ export const Home: React.FC = () => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      paddingLeft="2rem"
-      paddingRight="2rem"
+      paddingLeft={{ xs: "1rem", md: "2rem" }}
+      paddingRight={{ xs: "1rem", md: "2rem" }}
       mt={2}
       mb={4}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Container
-          maxWidth="xl"
-          sx={{ paddingTop: "0.5rem", paddingBottom: "0.5rem" }}
+      <Container maxWidth="xl" sx={{ paddingY: "0.5rem" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+          width="100%"
         >
           <Box
             display="flex"
-            flexDirection="column"
+            justifyContent="space-between"
             alignItems="center"
-            sx={{
-              display: "flex",
-              "&:hover": {
-                cursor: "pointer",
-              },
-            }}
-            onClick={() => navigate("/")}
+            width="100%"
           >
-            <Typography
-              variant="h4"
-              fontWeight="bold"
-              sx={{ fontSize: "clamp(2rem, 6vw, 10rem)", fontFamily: "Bison" }}
-            >
-              LALI SOLARI
-            </Typography>
-            <Typography
-              variant="body1"
-              gutterBottom
+            <Box>{/* empty box for spacing */}</Box>
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              paddingLeft="5rem"
               sx={{
-                fontSize: "clamp(0.5rem, 1.25vw, 6rem)",
-                fontFamily: "Open Sans",
+                display: "flex",
+                "&:hover": {
+                  cursor: "pointer",
+                },
               }}
-              lang="en"
+              onClick={() => navigate("/")}
             >
-              FINE ARTS & EXCLUSIVE DESIGNS
-            </Typography>
+              <Typography
+                variant="h4"
+                fontWeight="bold"
+                sx={{
+                  fontSize: "clamp(2rem, 6vw, 10rem)",
+                  fontFamily: "Bison",
+                }}
+              >
+                LALI SOLARI
+              </Typography>
+              <Typography
+                variant="body1"
+                gutterBottom
+                sx={{
+                  fontSize: "clamp(0.5rem, 1.25vw, 6rem)",
+                  fontFamily: "Open Sans",
+                }}
+                lang="en"
+              >
+                FINE ARTS & EXCLUSIVE DESIGNS
+              </Typography>
+            </Box>
+            <Box>
+              <IconButton
+                aria-label="translate button"
+                onClick={handleTranslateMenuClick}
+              >
+                <TranslateIcon />
+              </IconButton>
+              <Menu
+                id="translate-menu"
+                anchorEl={translateAnchorEl}
+                open={translateOpen}
+                onClose={handleTranslateMenuClose}
+              >
+                {languageOptions.map((item) => (
+                  <MenuItem
+                    key={item}
+                    onClick={() => {
+                      handleLanguageMode(item);
+                      handleTranslateMenuClose();
+                    }}
+                  >
+                    {item}
+                  </MenuItem>
+                ))}
+              </Menu>
+              <IconButton onClick={handleInstagramClick}>
+                <InstagramIcon />
+              </IconButton>
+            </Box>
           </Box>
-        </Container>
-      </Box>
+        </Box>
+      </Container>
       <Box ref={slideRefL1}>
         <Slide
           direction="left"
