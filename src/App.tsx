@@ -98,7 +98,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router(languageMode)} />;
+      <RouterProvider router={router(languageMode)} />
     </ThemeProvider>
   );
 }
