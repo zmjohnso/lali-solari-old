@@ -11,30 +11,17 @@ import {
   Button,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-
-interface IFormInput {
-  fullName: string;
-  email: string;
-  message: string;
-}
+import { useForm, ValidationError } from "@formspree/react";
 
 export const Contact: React.FC = () => {
   const { t } = useTranslation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInput>();
+  const [state, handleSubmit] = useForm(
+    import.meta.env.VITE_FORMSPREE_CONTACT_FORM
+  );
 
   const emailAddress = "hola@lalisolari.com";
   const requiredErrorMessage = t("contact.required");
-
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
-    // call Formspree
-  };
 
   return (
     <Container maxWidth="sm" sx={{ mt: 8 }}>
@@ -73,7 +60,7 @@ export const Contact: React.FC = () => {
         </Box>
         <Card>
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit}>
               <Box
                 display="flex"
                 flexDirection="column"
@@ -84,33 +71,38 @@ export const Contact: React.FC = () => {
                 </Typography>
                 <TextField
                   variant="outlined"
+                  name="fullName"
                   label={t("contact.fullName")}
-                  {...register("fullName", { required: true })}
-                  error={Boolean(errors.fullName)}
-                  helperText={errors.fullName ? requiredErrorMessage : ""}
+                  error={Boolean(state.errors)}
+                  helperText={state.errors ? requiredErrorMessage : ""}
                   style={{ height: "5rem" }}
+                />
+                <ValidationError
+                  prefix="Email"
+                  field="email"
+                  errors={state.errors}
                 />
                 <TextField
                   variant="outlined"
+                  name="email"
                   label={t("contact.email")}
-                  {...register("email", { required: true })}
-                  error={Boolean(errors.email)}
-                  helperText={errors.email ? requiredErrorMessage : ""}
+                  error={Boolean(state.errors)}
+                  helperText={state.errors ? requiredErrorMessage : ""}
                   style={{ height: "5rem" }}
                 />
                 <TextField
                   variant="outlined"
+                  name="message"
                   label={t("contact.yourMessage")}
                   multiline
-                  {...register("message", { required: true })}
-                  error={Boolean(errors.message)}
-                  helperText={errors.message ? requiredErrorMessage : ""}
+                  error={Boolean(state.errors)}
+                  helperText={state.errors ? requiredErrorMessage : ""}
                 />
               </Box>
             </form>
           </CardContent>
           <CardActions>
-            <Button type="submit" size="small">
+            <Button type="submit" size="small" disabled={state.submitting}>
               {t("contact.submit")}
             </Button>
           </CardActions>
