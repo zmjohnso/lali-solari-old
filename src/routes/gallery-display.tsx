@@ -113,9 +113,9 @@ export const GalleryDisplay: React.FC = () => {
 
   const collectionName = mainPhoto?.fields.gallery.fields.name;
   const collectionDescription = mainPhoto?.fields.gallery.fields.description;
-  const mainPhotoUrl = galleryItems[currentIndex]?.fields.photo.fields.file.url;
-  const mainPhotoTitle = galleryItems[currentIndex]?.fields.photo.fields.title;
-  const mainPhotoPaintingData = galleryItems[currentIndex]?.fields.paintingData;
+  const mainPhotoUrl = mainPhoto?.fields.photo.fields.file.url;
+  const mainPhotoTitle = mainPhoto?.fields.photo.fields.title;
+  const mainPhotoPaintingData = mainPhoto?.fields.paintingData;
 
   useEffect(() => {
     if (mainPhotoUrl) {
