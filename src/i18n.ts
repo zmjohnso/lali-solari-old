@@ -27,7 +27,7 @@ i18n
             yourMessage: "Your message",
             submit: "Submit",
             required: "Field is required.",
-            emailSent: "Email sent successfully!",
+            messageSent: "Thank you for your message!",
           },
           error: {
             title: "Oops! Something went wrong.",
@@ -46,7 +46,7 @@ i18n
             yourMessage: "Tu mensaje",
             submit: "Enviar",
             required: "Campo requerido.",
-            emailSent: "¡Correo electrónico enviado exitosamente!",
+            messageSent: "¡Gracias por tu mensaje!",
           },
           error: {
             title: "¡Vaya! Algo salió mal.",

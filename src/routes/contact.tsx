@@ -59,8 +59,8 @@ export const Contact: React.FC = () => {
           </Typography>
         </Box>
         <Card>
-          <CardContent>
-            <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
+            <CardContent>
               <Box
                 display="flex"
                 flexDirection="column"
@@ -99,13 +99,18 @@ export const Contact: React.FC = () => {
                   helperText={state.errors ? requiredErrorMessage : ""}
                 />
               </Box>
-            </form>
-          </CardContent>
-          <CardActions>
-            <Button type="submit" size="small" disabled={state.submitting}>
-              {t("contact.submit")}
-            </Button>
-          </CardActions>
+            </CardContent>
+            <CardActions>
+              <Button type="submit" size="small" disabled={state.submitting}>
+                {t("contact.submit")}
+              </Button>
+            </CardActions>
+          </form>
+          {state.succeeded && (
+            <CardContent>
+              <Typography>{t("contact.messageSent")}</Typography>
+            </CardContent>
+          )}
         </Card>
       </Box>
     </Container>
