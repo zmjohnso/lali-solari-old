@@ -73,12 +73,21 @@ export const Layout: React.FC = () => {
               justifyContent: "space-between",
             }}
           >
-            <Box display="flex" flexDirection="column" alignItems="center">
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              sx={{
+                "&:hover": {
+                  cursor: "pointer",
+                },
+              }}
+              onClick={() => navigate("/")}
+            >
               <Typography
                 variant="h4"
                 fontWeight="bold"
                 color="black"
-                onClick={() => navigate("/")}
                 sx={{
                   fontSize: "clamp(1rem, 6vw, 4rem)",
                   fontFamily: "Bison",
