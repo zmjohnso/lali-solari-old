@@ -19,6 +19,9 @@ i18n
     resources: {
       en: {
         translation: {
+          home: {
+            manifesto: "Manifesto",
+          },
           contact: {
             title: "Hi, let's talk!",
             fullName: "Full Name",
@@ -38,6 +41,9 @@ i18n
       },
       es: {
         translation: {
+          home: {
+            manifesto: "Manifiesto",
+          },
           contact: {
             title: "¡Hola, hablemos!",
             fullName: "Nombre completo",

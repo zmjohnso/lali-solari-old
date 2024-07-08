@@ -41,6 +41,7 @@ export const Contact: React.FC = () => {
             fontFamily: "Open Sans",
           }}
           gutterBottom
+          mb={5}
         >
           {t("contact.title")}
         </Typography>

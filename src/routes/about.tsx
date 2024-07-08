@@ -7,27 +7,40 @@ export const About: React.FC = () => {
   const aboutPage = useLoaderData() as AboutLoaderValue;
 
   return (
-    <Box width="100vw" mt={2}>
+    <Box
+      paddingX={{ xs: "1rem", md: "10rem" }}
+      paddingTop={{ xs: "0.5rem", md: "5rem" }}
+    >
       <Typography
         variant="h3"
-        align="center"
         fontWeight="bold"
+        mb={4}
         sx={{
           fontSize: "clamp(1rem, 10vw, 3rem)",
           fontFamily: "Open Sans",
-          textTransform: "uppercase",
-          letterSpacing: "-0.05em",
         }}
       >
         {aboutPage.fields.title}
       </Typography>
-      <Grid container spacing={2} mt={7}>
-        <Grid item xs={12} md={6}>
+
+      <Typography
+        variant="body1"
+        component="div"
+        width={{ xs: "22rem", md: "30rem" }}
+        mb={3}
+        sx={{
+          fontFamily: "Arimo",
+        }}
+      >
+        <ReactMarkdown>{aboutPage.fields.description}</ReactMarkdown>
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item>
           <ImageList
-            sx={{ width: { xs: "100vw", md: "50vw" }, height: 400 }}
-            variant="woven"
+            sx={{ width: "auto", height: "auto" }}
             cols={3}
-            rowHeight={150}
+            variant="woven"
+            rowHeight={500}
           >
             {aboutPage.fields.media.map((item) => (
               <ImageListItem key={item.fields.title}>
@@ -39,20 +52,6 @@ export const About: React.FC = () => {
               </ImageListItem>
             ))}
           </ImageList>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Box marginRight="1rem" marginLeft="1rem">
-            <Typography
-              mb={3}
-              component="div"
-              variant="body1"
-              sx={{
-                fontFamily: "Arimo",
-              }}
-            >
-              <ReactMarkdown>{aboutPage.fields.description}</ReactMarkdown>
-            </Typography>
-          </Box>
         </Grid>
       </Grid>
     </Box>

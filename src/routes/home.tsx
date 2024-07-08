@@ -72,7 +72,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
 };
 
 export const Home: React.FC = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const homePage = useLoaderData() as HomeLoaderValue;
   const navigate = useNavigate();
   const [inViewL1, setInViewL1] = useState(false);
@@ -250,7 +250,6 @@ export const Home: React.FC = () => {
       alignItems="center"
       paddingLeft={{ xs: "1rem", md: "2rem" }}
       paddingRight={{ xs: "1rem", md: "2rem" }}
-      mt={2}
       mb={4}
     >
       <Container maxWidth="xl" sx={{ paddingY: "0.5rem" }}>
@@ -348,6 +347,7 @@ export const Home: React.FC = () => {
             sx={{
               fontFamily: "Bebas Neue",
               fontSize: "clamp(2rem, 18vw, 20rem)",
+              textTransform: "uppercase",
               "&:hover": {
                 color: "#3bff00",
                 cursor: "pointer",
@@ -357,7 +357,7 @@ export const Home: React.FC = () => {
             onClick={() => navigate("/manifesto")}
             lang="en"
           >
-            MANIFESTO
+            {t("home.manifesto")}
           </Typography>
         </Slide>
       </Box>
