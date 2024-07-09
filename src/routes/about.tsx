@@ -18,6 +18,7 @@ export const About: React.FC = () => {
         sx={{
           fontSize: "clamp(1rem, 10vw, 3rem)",
           fontFamily: "Open Sans",
+          textTransform: "uppercase",
         }}
       >
         {aboutPage.fields.title}
@@ -28,6 +29,7 @@ export const About: React.FC = () => {
         component="div"
         width={{ xs: "22rem", md: "30rem" }}
         mb={3}
+        paddingLeft={{ xs: "0", md: "14rem" }}
         sx={{
           fontFamily: "Arimo",
         }}
