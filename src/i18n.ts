@@ -21,6 +21,10 @@ i18n
         translation: {
           home: {
             manifesto: "Manifesto",
+            abstractReverberations: "Abstract Reverberations",
+            symbiosis: "Symbiosis",
+            pandemic: "Pandemic",
+            roots: "Roots",
           },
           contact: {
             title: "Hi, let's talk!",
@@ -43,6 +47,10 @@ i18n
         translation: {
           home: {
             manifesto: "Manifiesto",
+            abstractReverberations: "Abstract Reverberations",
+            symbiosis: "Simbiosis",
+            pandemic: "Pandemia",
+            roots: "Raíces",
           },
           contact: {
             title: "¡Hola, hablemos!",

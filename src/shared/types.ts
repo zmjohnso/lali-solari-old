@@ -15,6 +15,9 @@ export interface Photo {
     };
     title: string;
   };
+  sys: {
+    id: string;
+  };
 }
 
 export interface Gallery {
@@ -37,7 +40,6 @@ export interface GalleryItem {
 
 export interface MinimumHomePage {
   title: string;
-  gallery: Gallery;
   thumbnail: Photo;
 }
 

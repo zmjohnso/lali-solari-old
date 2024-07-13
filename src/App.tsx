@@ -19,6 +19,7 @@ import { ExclusiveDesigns } from "./routes/exclusive-designs";
 import { Error } from "./routes/error";
 import { Contact } from "./routes/contact";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const theme = createTheme({
   typography: {
@@ -64,11 +65,13 @@ const router = (languageMode: Locale) =>
           },
         },
         {
-          path: "gallery/:title",
+          path: "gallery/:thumbnailId",
           element: <GalleryDisplay />,
           loader: async ({ params }) => {
-            const { title } = params;
-            const loader = await GalleryDisplayLoader(languageMode, title);
+            const loader = await GalleryDisplayLoader(
+              languageMode,
+              params.thumbnailId
+            );
             return loader;
           },
         },
@@ -85,6 +88,7 @@ const router = (languageMode: Locale) =>
   ]);
 
 function App() {
+  const { i18n } = useTranslation();
   const [languageMode, setLanguageMode] = useStore((state) => [
     state.languageMode,
     state.setLanguageMode,
@@ -93,8 +97,10 @@ function App() {
   const currentLanguage = navigator.language;
   useMemo(() => {
     // default to Spanish if user is not using English
+    const i18nLanguageFormat = currentLanguage === "en" ? "en" : "es";
+    i18n.changeLanguage(i18nLanguageFormat);
     setLanguageMode(currentLanguage === "en" ? "en-US" : "es");
-  }, [currentLanguage, setLanguageMode]);
+  }, [currentLanguage, i18n, setLanguageMode]);
 
   return (
     <ThemeProvider theme={theme}>

@@ -11,6 +11,11 @@ export const extractPhotoId = (input: string): number => {
   return isNaN(number) ? 0 : number - 1;
 };
 
+export const extractTitle = (input: string): string => {
+  const match = input.match(/^[^\d]+/);
+  return match ? match[0].trim() : "";
+};
+
 export const handleInstagramClick = () => {
   window.open(
     "https://www.instagram.com/lalisolariart/",

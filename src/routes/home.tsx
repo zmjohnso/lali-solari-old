@@ -14,7 +14,7 @@ import TranslateIcon from "@mui/icons-material/Translate";
 import { useState, useEffect, useRef, ImgHTMLAttributes } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { HomeLoaderValue } from "../loaders/home-loader";
-import { handleInstagramClick } from "../shared/utilities";
+import { extractTitle, handleInstagramClick } from "../shared/utilities";
 import { useStore } from "../store/store";
 import { useTranslation } from "react-i18next";
 
@@ -117,26 +117,25 @@ export const Home: React.FC = () => {
   const languageOptions = ["English", "castellano"];
 
   const arPhotos = homePage.filter(
-    (x) => x.fields.gallery.sys.id === "5fEPCQ6vimuUf1Ps82KcAp"
+    (x) => extractTitle(x.fields.title) === t("home.abstractReverberations")
   );
   const symbiosisPhotos = homePage.filter(
-    (x) => x.fields.gallery.sys.id === "42VUVtuIaLuzxexiB1JgMW"
+    (x) => extractTitle(x.fields.title) === t("home.symbiosis")
   );
   const pandemicPhotos = homePage.filter(
-    (x) => x.fields.gallery.sys.id === "6VOr5XDiSSfaIKId58ABnw"
+    (x) => extractTitle(x.fields.title) === t("home.pandemic")
   );
   const rootsPhotos = homePage.filter(
-    (x) => x.fields.gallery.sys.id === "1TwAKieiOmnU6LL4tWEWrV"
+    (x) => extractTitle(x.fields.title) === t("home.roots")
   );
 
   const abstractReverberationsName =
-    arPhotos.length && arPhotos[0].fields.gallery.fields.name;
+    arPhotos[0] && extractTitle(arPhotos[0].fields.title);
   const symbiosisName =
-    symbiosisPhotos.length && symbiosisPhotos[0].fields.gallery.fields.name;
+    symbiosisPhotos[0] && extractTitle(symbiosisPhotos[0].fields.title);
   const pandemicName =
-    pandemicPhotos.length && pandemicPhotos[0].fields.gallery.fields.name;
-  const rootsName =
-    rootsPhotos.length && rootsPhotos[0].fields.gallery.fields.name;
+    pandemicPhotos[0] && extractTitle(pandemicPhotos[0].fields.title);
+  const rootsName = rootsPhotos[0] && extractTitle(rootsPhotos[0].fields.title);
 
   const handleEtsyClick = () => {
     window.open(
@@ -471,7 +470,9 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
-        onClick={() => navigate(`gallery/${arPhotos[0].fields.title}`)}
+        onClick={() =>
+          navigate(`gallery/${arPhotos[0].fields.thumbnail.sys.id}`)
+        }
       >
         {abstractReverberationsName}
       </Typography>
@@ -492,7 +493,9 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`gallery/${item.fields.title}`)}
+              onClick={() =>
+                navigate(`gallery/${item.fields.thumbnail.sys.id}`)
+              }
             />
           </Grid>
         ))}
@@ -506,7 +509,9 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
-        onClick={() => navigate(`gallery/${rootsPhotos[0].fields.title}`)}
+        onClick={() =>
+          navigate(`gallery/${rootsPhotos[0].fields.thumbnail.sys.id}`)
+        }
       >
         {rootsName}
       </Typography>
@@ -527,7 +532,9 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`gallery/${item.fields.title}`)}
+              onClick={() =>
+                navigate(`gallery/${item.fields.thumbnail.sys.id}`)
+              }
             />
           </Grid>
         ))}
@@ -541,7 +548,9 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
-        onClick={() => navigate(`gallery/${symbiosisPhotos[0].fields.title}`)}
+        onClick={() =>
+          navigate(`gallery/${symbiosisPhotos[0].fields.thumbnail.sys.id}`)
+        }
       >
         {symbiosisName}
       </Typography>
@@ -562,7 +571,9 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`gallery/${item.fields.title}`)}
+              onClick={() =>
+                navigate(`gallery/${item.fields.thumbnail.sys.id}`)
+              }
             />
           </Grid>
         ))}
@@ -576,7 +587,9 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
-        onClick={() => navigate(`gallery/${pandemicPhotos[0].fields.title}`)}
+        onClick={() =>
+          navigate(`gallery/${pandemicPhotos[0].fields.thumbnail.sys.id}`)
+        }
       >
         {pandemicName}
       </Typography>
@@ -597,7 +610,9 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`gallery/${item.fields.title}`)}
+              onClick={() =>
+                navigate(`gallery/${item.fields.thumbnail.sys.id}`)
+              }
             />
           </Grid>
         ))}

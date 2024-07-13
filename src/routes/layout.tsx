@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TranslateIcon from "@mui/icons-material/Translate";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useStore } from "../store/store";
 import { handleInstagramClick } from "../shared/utilities";
@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 
 export const Layout: React.FC = () => {
   const { i18n } = useTranslation();
+  useParams();
   const navigate = useNavigate();
   const [languageMode, setLanguageMode] = useStore((state) => [
     state.languageMode,

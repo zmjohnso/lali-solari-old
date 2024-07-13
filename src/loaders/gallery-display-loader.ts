@@ -4,14 +4,16 @@ import { extractPhotoId } from "../shared/utilities";
 
 export const GalleryDisplayLoader = async (
   languageMode: Locale,
-  title: string | undefined
+  thumbnailId: string | undefined
 ) => {
   const client = getClient();
   const res = await client.getEntries<GalleryItem>({
     content_type: "galleryPhoto",
     locale: languageMode,
   });
-  const mainPhoto = res.items.find((x) => x.fields.title === title);
+  const mainPhoto = res.items.find(
+    (x) => x.fields.thumbnail.sys.id === thumbnailId
+  );
   const galleryItems = res.items.filter(
     (x) =>
       x.fields.gallery.fields.name === mainPhoto?.fields.gallery.fields.name
