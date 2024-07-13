@@ -64,11 +64,11 @@ const router = (languageMode: Locale) =>
           },
         },
         {
-          path: "gallery/:entryId",
+          path: "gallery/:title",
           element: <GalleryDisplay />,
           loader: async ({ params }) => {
-            const { entryId } = params;
-            const loader = await GalleryDisplayLoader(languageMode, entryId);
+            const { title } = params;
+            const loader = await GalleryDisplayLoader(languageMode, title);
             return loader;
           },
         },

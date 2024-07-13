@@ -471,7 +471,7 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
-        onClick={() => navigate(`gallery/${arPhotos[0].sys.id}`)}
+        onClick={() => navigate(`gallery/${arPhotos[0].fields.title}`)}
       >
         {abstractReverberationsName}
       </Typography>
@@ -492,7 +492,7 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`gallery/${item.sys.id}`)}
+              onClick={() => navigate(`gallery/${item.fields.title}`)}
             />
           </Grid>
         ))}
@@ -506,7 +506,7 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
-        onClick={() => navigate(`gallery/${rootsPhotos[0].sys.id}`)}
+        onClick={() => navigate(`gallery/${rootsPhotos[0].fields.title}`)}
       >
         {rootsName}
       </Typography>
@@ -527,7 +527,7 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`gallery/${item.sys.id}`)}
+              onClick={() => navigate(`gallery/${item.fields.title}`)}
             />
           </Grid>
         ))}
@@ -541,7 +541,7 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
-        onClick={() => navigate(`gallery/${symbiosisPhotos[0].sys.id}`)}
+        onClick={() => navigate(`gallery/${symbiosisPhotos[0].fields.title}`)}
       >
         {symbiosisName}
       </Typography>
@@ -562,7 +562,7 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`gallery/${item.sys.id}`)}
+              onClick={() => navigate(`gallery/${item.fields.title}`)}
             />
           </Grid>
         ))}
@@ -576,7 +576,7 @@ export const Home: React.FC = () => {
           fontSize: "clamp(2rem, 6vw, 10rem)",
           fontFamily: "Bebas Neue",
         }}
-        onClick={() => navigate(`gallery/${pandemicPhotos[0].sys.id}`)}
+        onClick={() => navigate(`gallery/${pandemicPhotos[0].fields.title}`)}
       >
         {pandemicName}
       </Typography>
@@ -597,7 +597,7 @@ export const Home: React.FC = () => {
               alt={item.fields.thumbnail.fields.title}
               width="100%"
               height="auto"
-              onClick={() => navigate(`gallery/${item.sys.id}`)}
+              onClick={() => navigate(`gallery/${item.fields.title}`)}
             />
           </Grid>
         ))}
