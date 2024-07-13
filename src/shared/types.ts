@@ -35,6 +35,12 @@ export interface GalleryItem {
   paintingData: PaintingData;
 }
 
+export interface MinimumHomePage {
+  title: string;
+  gallery: Gallery;
+  thumbnail: Photo;
+}
+
 export interface PaintingData {
   fields: {
     size: string;
