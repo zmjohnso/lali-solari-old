@@ -1,3 +1,6 @@
+import { Locale } from "./types";
+import type { i18n } from "i18next";
+
 export const extractPhotoId = (input: string): number => {
   // Split the string by spaces and get the last item
   const parts = input.trim().split(/\s+/);
@@ -14,6 +17,17 @@ export const extractPhotoId = (input: string): number => {
 export const extractTitle = (input: string): string => {
   const match = input.match(/^[^\d]+/);
   return match ? match[0].trim() : "";
+};
+
+export const handleLanguageMode = (
+  currentLanguage: string,
+  i18n: i18n,
+  setLanguageMode: (mode: Locale) => void
+) => {
+  const newLanguageMode = currentLanguage === "English" ? "en-US" : "es";
+  const i18nLanguageFormat = currentLanguage === "English" ? "en" : "es";
+  i18n.changeLanguage(i18nLanguageFormat);
+  setLanguageMode(newLanguageMode);
 };
 
 export const handleInstagramClick = () => {

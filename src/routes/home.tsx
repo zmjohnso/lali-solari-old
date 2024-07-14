@@ -14,7 +14,11 @@ import TranslateIcon from "@mui/icons-material/Translate";
 import { useState, useEffect, useRef, ImgHTMLAttributes } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { HomeLoaderValue } from "../loaders/home-loader";
-import { extractTitle, handleInstagramClick } from "../shared/utilities";
+import {
+  extractTitle,
+  handleInstagramClick,
+  handleLanguageMode,
+} from "../shared/utilities";
 import { useStore } from "../store/store";
 import { useTranslation } from "react-i18next";
 
@@ -106,13 +110,6 @@ export const Home: React.FC = () => {
     const rootHTMLlang = languageMode === "en-US" ? "en" : "es";
     document.documentElement.lang = rootHTMLlang;
   }, [languageMode]);
-
-  const handleLanguageMode = (currentLanguage: string) => {
-    const newLanguageMode = currentLanguage === "English" ? "en-US" : "es";
-    const i18nLanguageFormat = currentLanguage === "English" ? "en" : "es";
-    i18n.changeLanguage(i18nLanguageFormat);
-    setLanguageMode(newLanguageMode);
-  };
 
   const languageOptions = ["English", "castellano"];
 
@@ -314,15 +311,15 @@ export const Home: React.FC = () => {
                 open={translateOpen}
                 onClose={handleTranslateMenuClose}
               >
-                {languageOptions.map((item) => (
+                {languageOptions.map((lang) => (
                   <MenuItem
-                    key={item}
+                    key={lang}
                     onClick={() => {
-                      handleLanguageMode(item);
+                      handleLanguageMode(lang, i18n, setLanguageMode);
                       handleTranslateMenuClose();
                     }}
                   >
-                    {item}
+                    {lang}
                   </MenuItem>
                 ))}
               </Menu>
