@@ -7,12 +7,12 @@ import { GalleryDisplay } from "./routes/gallery-display";
 import "@fontsource/bebas-neue";
 import "@fontsource/open-sans";
 import "@fontsource/arimo";
+import "./fonts.css";
 import { HomeLoader } from "./loaders/home-loader";
 import { GalleryDisplayLoader } from "./loaders/gallery-display-loader";
 import { useStore } from "./store/store";
 import { useMemo } from "react";
 import { Locale } from "./shared/types";
-import "./fonts.css";
 import { ManifestoLoader } from "./loaders/manifesto-loader";
 import { AboutLoader } from "./loaders/about-loader";
 import { ExclusiveDesigns } from "./routes/exclusive-designs";
@@ -43,37 +43,23 @@ const router = (languageMode: Locale) =>
         {
           index: true,
           element: <Home />,
-          loader: async () => {
-            const loader = await HomeLoader(languageMode);
-            return loader;
-          },
+          loader: () => HomeLoader(languageMode),
         },
         {
           path: "manifesto",
           element: <Manifesto />,
-          loader: async () => {
-            const loader = await ManifestoLoader(languageMode);
-            return loader;
-          },
+          loader: () => ManifestoLoader(languageMode),
         },
         {
           path: "about",
           element: <About />,
-          loader: async () => {
-            const loader = await AboutLoader(languageMode);
-            return loader;
-          },
+          loader: () => AboutLoader(languageMode),
         },
         {
           path: "gallery/:thumbnailId",
           element: <GalleryDisplay />,
-          loader: async ({ params }) => {
-            const loader = await GalleryDisplayLoader(
-              languageMode,
-              params.thumbnailId
-            );
-            return loader;
-          },
+          loader: ({ params }) =>
+            GalleryDisplayLoader(languageMode, params.thumbnailId),
         },
         {
           path: "exclusive-designs",
@@ -95,6 +81,7 @@ function App() {
   ]);
 
   const currentLanguage = navigator.language;
+
   useMemo(() => {
     // default to Spanish if user is not using English
     const i18nLanguageFormat = currentLanguage === "en" ? "en" : "es";
