@@ -37,17 +37,17 @@ const router = (languageMode: Locale) =>
   createBrowserRouter([
     {
       path: "/",
-      element: <Home />,
-      errorElement: <Error />,
-      loader: async () => {
-        const loader = await HomeLoader(languageMode);
-        return loader;
-      },
-    },
-    {
-      path: "/",
       element: <Layout />,
+      errorElement: <Error />,
       children: [
+        {
+          index: true,
+          element: <Home />,
+          loader: async () => {
+            const loader = await HomeLoader(languageMode);
+            return loader;
+          },
+        },
         {
           path: "manifesto",
           element: <Manifesto />,

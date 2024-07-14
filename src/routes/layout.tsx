@@ -10,16 +10,15 @@ import {
 } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TranslateIcon from "@mui/icons-material/Translate";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useStore } from "../store/store";
-import { handleInstagramClick, handleLanguageMode } from "../shared/utilities";
 import { useTranslation } from "react-i18next";
 
 export const Layout: React.FC = () => {
   const { i18n } = useTranslation();
-  useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [languageMode, setLanguageMode] = useStore((state) => [
     state.languageMode,
     state.setLanguageMode,
@@ -37,6 +36,21 @@ export const Layout: React.FC = () => {
     setTranslateMenuAnchorEl(event.currentTarget);
   };
 
+  const handleInstagramClick = () => {
+    window.open(
+      "https://www.instagram.com/lalisolariart/",
+      "_blank",
+      "noopener noreferrer"
+    );
+  };
+
+  const handleLanguageMode = (currentLanguage: string) => {
+    const newLanguageMode = currentLanguage === "English" ? "en-US" : "es";
+    const i18nLanguageFormat = currentLanguage === "English" ? "en" : "es";
+    i18n.changeLanguage(i18nLanguageFormat);
+    setLanguageMode(newLanguageMode);
+  };
+
   useEffect(() => {
     // Update the lang attribute on the <html> element whenever the currentLanguage changes
     const rootHTMLlang = languageMode === "en-US" ? "en" : "es";
@@ -44,6 +58,8 @@ export const Layout: React.FC = () => {
   }, [languageMode]);
 
   const languageOptions = ["English", "castellano"];
+
+  const isHomePage = location.pathname === "/";
 
   return (
     <Box
@@ -56,10 +72,7 @@ export const Layout: React.FC = () => {
         position="static"
         sx={{ background: "transparent", boxShadow: "none" }}
       >
-        <Container
-          maxWidth="xl"
-          sx={{ paddingTop: "0.5rem", paddingBottom: "0.5rem" }}
-        >
+        <Container maxWidth="xl" sx={{ paddingY: "0.5rem" }}>
           <Toolbar
             disableGutters
             sx={{
@@ -67,10 +80,12 @@ export const Layout: React.FC = () => {
               justifyContent: "space-between",
             }}
           >
+            {isHomePage && <Box>{/* empty box for spacing */}</Box>}
             <Box
               display="flex"
               flexDirection="column"
               alignItems="center"
+              paddingLeft={isHomePage ? "5rem" : "0"}
               sx={{
                 "&:hover": {
                   cursor: "pointer",
@@ -83,7 +98,9 @@ export const Layout: React.FC = () => {
                 fontWeight="bold"
                 color="black"
                 sx={{
-                  fontSize: "clamp(1rem, 6vw, 4rem)",
+                  fontSize: isHomePage
+                    ? "clamp(2rem, 6vw, 10rem)"
+                    : "clamp(1rem, 6vw, 4rem)",
                   fontFamily: "Bison",
                 }}
               >
@@ -119,7 +136,7 @@ export const Layout: React.FC = () => {
                   <MenuItem
                     key={lang}
                     onClick={() => {
-                      handleLanguageMode(lang, i18n, setLanguageMode);
+                      handleLanguageMode(lang);
                       handleTranslateMenuClose();
                     }}
                   >

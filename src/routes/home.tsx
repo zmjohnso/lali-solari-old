@@ -1,25 +1,8 @@
-import {
-  Box,
-  Typography,
-  Grid,
-  Slide,
-  Skeleton,
-  IconButton,
-  Menu,
-  MenuItem,
-  Container,
-} from "@mui/material";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TranslateIcon from "@mui/icons-material/Translate";
+import { Box, Typography, Grid, Slide, Skeleton } from "@mui/material";
 import { useState, useEffect, useRef, ImgHTMLAttributes } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { HomeLoaderValue } from "../loaders/home-loader";
-import {
-  extractTitle,
-  handleInstagramClick,
-  handleLanguageMode,
-} from "../shared/utilities";
-import { useStore } from "../store/store";
+import { extractTitle } from "../shared/utilities";
 import { useTranslation } from "react-i18next";
 
 interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -76,7 +59,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
 };
 
 export const Home: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const homePage = useLoaderData() as HomeLoaderValue;
   const navigate = useNavigate();
   const [inViewL1, setInViewL1] = useState(false);
@@ -87,31 +70,6 @@ export const Home: React.FC = () => {
   const slideRefL2 = useRef(null);
   const slideRefED = useRef(null);
   const slideRefContact = useRef(null);
-
-  const [languageMode, setLanguageMode] = useStore((state) => [
-    state.languageMode,
-    state.setLanguageMode,
-  ]);
-  const [translateAnchorEl, setTranslateMenuAnchorEl] =
-    useState<null | HTMLElement>(null);
-  const translateOpen = Boolean(translateAnchorEl);
-
-  const handleTranslateMenuClose = () => {
-    setTranslateMenuAnchorEl(null);
-  };
-  const handleTranslateMenuClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    setTranslateMenuAnchorEl(event.currentTarget);
-  };
-
-  useEffect(() => {
-    // Update the lang attribute on the <html> element whenever the currentLanguage changes
-    const rootHTMLlang = languageMode === "en-US" ? "en" : "es";
-    document.documentElement.lang = rootHTMLlang;
-  }, [languageMode]);
-
-  const languageOptions = ["English", "castellano"];
 
   const arPhotos = homePage.filter(
     (x) => extractTitle(x.fields.title) === t("home.abstractReverberations")
@@ -248,88 +206,6 @@ export const Home: React.FC = () => {
       paddingRight={{ xs: "1rem", md: "2rem" }}
       mb={4}
     >
-      <Container maxWidth="xl" sx={{ paddingY: "0.5rem" }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-          width="100%"
-        >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            width="100%"
-          >
-            <Box>{/* empty box for spacing */}</Box>
-            <Box
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              paddingLeft="5rem"
-              sx={{
-                display: "flex",
-                "&:hover": {
-                  cursor: "pointer",
-                },
-              }}
-              onClick={() => navigate("/")}
-            >
-              <Typography
-                variant="h4"
-                fontWeight="bold"
-                sx={{
-                  fontSize: "clamp(2rem, 6vw, 10rem)",
-                  fontFamily: "Bison",
-                }}
-              >
-                LALI SOLARI
-              </Typography>
-              <Typography
-                variant="body1"
-                gutterBottom
-                sx={{
-                  fontSize: "clamp(0.5rem, 1.25vw, 6rem)",
-                  fontFamily: "Open Sans",
-                }}
-                lang="en"
-              >
-                FINE ARTS & EXCLUSIVE DESIGNS
-              </Typography>
-            </Box>
-            <Box>
-              <IconButton
-                aria-label="translate button"
-                onClick={handleTranslateMenuClick}
-              >
-                <TranslateIcon />
-              </IconButton>
-              <Menu
-                id="translate-menu"
-                anchorEl={translateAnchorEl}
-                open={translateOpen}
-                onClose={handleTranslateMenuClose}
-              >
-                {languageOptions.map((lang) => (
-                  <MenuItem
-                    key={lang}
-                    onClick={() => {
-                      handleLanguageMode(lang, i18n, setLanguageMode);
-                      handleTranslateMenuClose();
-                    }}
-                  >
-                    {lang}
-                  </MenuItem>
-                ))}
-              </Menu>
-              <IconButton onClick={handleInstagramClick}>
-                <InstagramIcon />
-              </IconButton>
-            </Box>
-          </Box>
-        </Box>
-      </Container>
       <Box ref={slideRefL1}>
         <Slide
           direction="left"
