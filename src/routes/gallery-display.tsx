@@ -176,15 +176,7 @@ export const GalleryDisplay: React.FC = () => {
           </Grid>
           <Grid item xs>
             <Box position="relative" width="100%">
-              {!loadedMainPhoto && (
-                <Skeleton
-                  variant="rectangular"
-                  width="100%"
-                  height="auto"
-                  sx={{ paddingTop: "75%" }}
-                />
-              )}
-              {loadedMainPhoto && (
+              {loadedMainPhoto ? (
                 <TransformWrapper>
                   <TransformComponent>
                     <img
@@ -193,13 +185,16 @@ export const GalleryDisplay: React.FC = () => {
                       src={mainPhotoUrl}
                       alt={mainPhotoTitle}
                       loading="lazy"
-                      style={{
-                        display: "block",
-                        margin: "0 auto",
-                      }}
                     />
                   </TransformComponent>
                 </TransformWrapper>
+              ) : (
+                <Skeleton
+                  variant="rectangular"
+                  width="100%"
+                  height="auto"
+                  sx={{ paddingTop: "75%" }}
+                />
               )}
               {mainPhotoPaintingData && (
                 <Typography

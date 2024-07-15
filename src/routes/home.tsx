@@ -1,33 +1,43 @@
 import { Box, Typography, Grid, Slide, Skeleton } from "@mui/material";
-import { useState, useEffect, useRef, ImgHTMLAttributes } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { HomeLoaderValue } from "../loaders/home-loader";
 import { extractTitle } from "../shared/utilities";
 import { useTranslation } from "react-i18next";
+import { MinimumHomePage } from "../shared/types";
+import { Entry } from "contentful";
+import { usePhotoLoad } from "../hooks/usePhotoLoad";
 
-interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
-  src: string;
-  alt: string;
-  onClick?: (event: React.MouseEvent<HTMLImageElement>) => void;
+interface PhotoGridItemProps {
+  photo: Entry<MinimumHomePage>;
+  columns: number;
 }
 
-const LazyImage: React.FC<LazyImageProps> = ({
-  src,
-  alt,
-  onClick,
-  ...props
-}) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+const PhotoGridItem: React.FC<PhotoGridItemProps> = (props) => {
+  const photoUrl = props.photo.fields.thumbnail.fields.file.url;
+  const photoTitle = props.photo.fields.thumbnail.fields.title;
+  const { imageLoaded } = usePhotoLoad(props.photo);
 
   return (
-    <div
-      style={{
-        position: "relative",
+    <Grid
+      key={photoTitle}
+      item
+      xs={12 / props.columns}
+      sx={{
         display: "flex",
+        alignItems: "center",
         justifyContent: "center",
       }}
     >
-      {!imageLoaded && (
+      {imageLoaded ? (
+        <img
+          height="auto"
+          width="100%"
+          src={photoUrl}
+          alt={photoTitle}
+          loading="lazy"
+        />
+      ) : (
         <Skeleton
           variant="rectangular"
           width="100%"
@@ -35,26 +45,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
           sx={{ paddingTop: "75%" }}
         />
       )}
-      <img
-        src={src}
-        alt={alt}
-        onClick={onClick}
-        onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-        onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
-        style={{
-          display: imageLoaded ? "block" : "none",
-          cursor: "pointer",
-          maxWidth: "100%",
-          maxHeight: "100%",
-          width: "auto",
-          height: "auto",
-          transition: "transform 0.3s",
-          flexShrink: 0,
-        }}
-        onLoad={() => setImageLoaded(true)}
-        {...props}
-      />
-    </div>
+    </Grid>
   );
 };
 
@@ -350,27 +341,12 @@ export const Home: React.FC = () => {
         {abstractReverberationsName}
       </Typography>
       <Grid container spacing={2}>
-        {arPhotos.map((item) => (
-          <Grid
-            key={item.fields.thumbnail.fields.title}
-            item
-            xs={12 / 5}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <LazyImage
-              src={item.fields.thumbnail.fields.file.url}
-              alt={item.fields.thumbnail.fields.title}
-              width="100%"
-              height="auto"
-              onClick={() =>
-                navigate(`gallery/${item.fields.thumbnail.sys.id}`)
-              }
-            />
-          </Grid>
+        {arPhotos.map((photo) => (
+          <PhotoGridItem
+            key={photo.fields.thumbnail.fields.title}
+            photo={photo}
+            columns={5}
+          />
         ))}
       </Grid>
       <Typography
@@ -389,27 +365,12 @@ export const Home: React.FC = () => {
         {rootsName}
       </Typography>
       <Grid container spacing={2}>
-        {rootsPhotos.map((item) => (
-          <Grid
-            key={item.fields.thumbnail.fields.title}
-            item
-            xs={12 / 3}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <LazyImage
-              src={item.fields.thumbnail.fields.file.url}
-              alt={item.fields.thumbnail.fields.title}
-              width="100%"
-              height="auto"
-              onClick={() =>
-                navigate(`gallery/${item.fields.thumbnail.sys.id}`)
-              }
-            />
-          </Grid>
+        {rootsPhotos.map((photo) => (
+          <PhotoGridItem
+            key={photo.fields.thumbnail.fields.title}
+            photo={photo}
+            columns={3}
+          />
         ))}
       </Grid>
       <Typography
@@ -428,27 +389,12 @@ export const Home: React.FC = () => {
         {symbiosisName}
       </Typography>
       <Grid container spacing={2}>
-        {symbiosisPhotos.map((item) => (
-          <Grid
-            key={item.fields.thumbnail.fields.title}
-            item
-            xs={12 / 4}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <LazyImage
-              src={item.fields.thumbnail.fields.file.url}
-              alt={item.fields.thumbnail.fields.title}
-              width="100%"
-              height="auto"
-              onClick={() =>
-                navigate(`gallery/${item.fields.thumbnail.sys.id}`)
-              }
-            />
-          </Grid>
+        {symbiosisPhotos.map((photo) => (
+          <PhotoGridItem
+            key={photo.fields.thumbnail.fields.title}
+            photo={photo}
+            columns={4}
+          />
         ))}
       </Grid>
       <Typography
@@ -467,27 +413,12 @@ export const Home: React.FC = () => {
         {pandemicName}
       </Typography>
       <Grid container spacing={2}>
-        {pandemicPhotos.map((item) => (
-          <Grid
-            key={item.fields.thumbnail.fields.title}
-            item
-            xs={12 / 5}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <LazyImage
-              src={item.fields.thumbnail.fields.file.url}
-              alt={item.fields.thumbnail.fields.title}
-              width="100%"
-              height="auto"
-              onClick={() =>
-                navigate(`gallery/${item.fields.thumbnail.sys.id}`)
-              }
-            />
-          </Grid>
+        {pandemicPhotos.map((photo) => (
+          <PhotoGridItem
+            key={photo.fields.thumbnail.fields.title}
+            photo={photo}
+            columns={5}
+          />
         ))}
       </Grid>
     </Box>
