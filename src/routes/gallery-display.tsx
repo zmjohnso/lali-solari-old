@@ -77,7 +77,9 @@ const Gallery: React.FC<GalleryProps> = ({ mainPhoto, galleryItems }) => {
                   cursor: "pointer",
                   transition: "transform 0.3s",
                 }}
-                onClick={() => navigate(`/gallery/${item.sys.id}`)}
+                onClick={() =>
+                  navigate(`/gallery/${item.fields.thumbnail.sys.id}`)
+                }
                 onMouseOver={(e) =>
                   (e.currentTarget.style.transform = "scale(1.05)")
                 }
@@ -106,29 +108,37 @@ const Gallery: React.FC<GalleryProps> = ({ mainPhoto, galleryItems }) => {
 export const GalleryDisplay: React.FC = () => {
   const { mainPhoto, galleryItems } =
     useLoaderData() as GalleryDisplayLoaderValue;
+  console.log({ mainPhoto });
   const navigate = useNavigate();
-  const { imageLoaded } = usePhotoLoader(mainPhoto.fields.photo);
+  const { imageLoaded } = usePhotoLoader(mainPhoto?.fields.photo);
   const [currentIndex, setCurrentIndex] = useState(
-    galleryItems.findIndex((item) => item.sys.id === mainPhoto.sys.id)
+    galleryItems.findIndex(
+      (item) =>
+        item.fields.thumbnail.sys.id === mainPhoto?.fields.thumbnail.sys.id
+    )
   );
 
-  const collectionName = mainPhoto.fields.gallery.fields.name;
-  const collectionDescription = mainPhoto.fields.gallery.fields.description;
-  const mainPhotoUrl = mainPhoto.fields.photo.fields.file.url;
-  const mainPhotoTitle = mainPhoto.fields.photo.fields.title;
-  const mainPhotoPaintingData = mainPhoto.fields.paintingData;
+  const collectionName = mainPhoto?.fields.gallery.fields.name;
+  const collectionDescription = mainPhoto?.fields.gallery.fields.description;
+  const mainPhotoUrl = mainPhoto?.fields.photo.fields.file.url;
+  const mainPhotoTitle = mainPhoto?.fields.photo.fields.title;
+  const mainPhotoPaintingData = mainPhoto?.fields.paintingData;
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 1);
-      navigate(`/gallery/${galleryItems[currentIndex - 1].sys.id}`);
+      navigate(
+        `/gallery/${galleryItems[currentIndex - 1].fields.thumbnail.sys.id}`
+      );
     }
   };
 
   const handleNext = () => {
     if (currentIndex < galleryItems.length - 1) {
       setCurrentIndex((prevIndex) => prevIndex + 1);
-      navigate(`/gallery/${galleryItems[currentIndex + 1].sys.id}`);
+      navigate(
+        `/gallery/${galleryItems[currentIndex + 1].fields.thumbnail.sys.id}`
+      );
     }
   };
 
@@ -216,7 +226,7 @@ export const GalleryDisplay: React.FC = () => {
           </Grid>
         </Grid>
         <Gallery
-          key={mainPhoto?.sys.id}
+          key={mainPhoto?.fields.thumbnail.sys.id}
           mainPhoto={mainPhoto}
           galleryItems={galleryItems}
         />

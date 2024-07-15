@@ -12,7 +12,7 @@ export const GalleryDisplayLoader = async (
     content_type: "galleryPhoto",
     locale: languageMode,
   });
-  let mainPhoto = res.items.find(
+  const mainPhoto = res.items.find(
     (x) => x.fields.thumbnail.sys.id === thumbnailId
   );
   const galleryItems: Entry<GalleryItem>[] = res.items.filter(
@@ -22,10 +22,6 @@ export const GalleryDisplayLoader = async (
   const sortedGalleryItems: Entry<GalleryItem>[] = galleryItems.sort(
     (a, b) => extractPhotoId(a.fields.title) - extractPhotoId(b.fields.title)
   );
-
-  if (!mainPhoto) {
-    mainPhoto = sortedGalleryItems[0];
-  }
 
   return { mainPhoto, galleryItems: sortedGalleryItems };
 };
