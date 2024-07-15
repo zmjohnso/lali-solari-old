@@ -81,7 +81,11 @@ export const GalleryDisplay: React.FC = () => {
         </Typography>
         <Grid container alignItems="center" spacing={2} mb={3}>
           <Grid item>
-            <IconButton onClick={handlePrevious} disabled={currentIndex === 0}>
+            <IconButton
+              aria-label="main display photo back arrow"
+              onClick={handlePrevious}
+              disabled={currentIndex === 0}
+            >
               <ArrowBack />
             </IconButton>
           </Grid>
@@ -126,6 +130,7 @@ export const GalleryDisplay: React.FC = () => {
           </Grid>
           <Grid item>
             <IconButton
+              aria-label="main display photo forward arrow"
               onClick={handleNext}
               disabled={currentIndex >= galleryItems.length - 1}
             >

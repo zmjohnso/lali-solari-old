@@ -47,7 +47,11 @@ export const Gallery: React.FC<GalleryProps> = ({
     <Grid container alignItems="center">
       {galleryItems.length > itemsToShow && (
         <Grid item>
-          <IconButton onClick={handlePrevious} disabled={currentIndex === 0}>
+          <IconButton
+            aria-label="gallery photo back arrow"
+            onClick={handlePrevious}
+            disabled={currentIndex === 0}
+          >
             <ArrowBack />
           </IconButton>
         </Grid>
@@ -87,6 +91,7 @@ export const Gallery: React.FC<GalleryProps> = ({
       {galleryItems.length > itemsToShow && (
         <Grid item>
           <IconButton
+            aria-label="gallery photo forward arrow"
             onClick={handleNext}
             disabled={currentIndex >= galleryItems.length - itemsToShow}
           >

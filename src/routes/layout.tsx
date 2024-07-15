@@ -144,7 +144,10 @@ export const Layout: React.FC = () => {
                   </MenuItem>
                 ))}
               </Menu>
-              <IconButton onClick={handleInstagramClick}>
+              <IconButton
+                aria-label="instagram link button"
+                onClick={handleInstagramClick}
+              >
                 <InstagramIcon />
               </IconButton>
             </Box>
