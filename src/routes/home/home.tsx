@@ -6,7 +6,7 @@ import { extractTitle } from "../../shared/utilities";
 import { useTranslation } from "react-i18next";
 import { PhotoGridItem } from "./photo-grid-item";
 
-export const Home: React.FC = () => {
+const Home: React.FC = () => {
   const { t } = useTranslation();
   const homePage = useLoaderData() as HomeLoaderValue;
   const navigate = useNavigate();
@@ -381,3 +381,5 @@ export const Home: React.FC = () => {
     </Box>
   );
 };
+
+export default Home;

@@ -3,7 +3,7 @@ import { AboutLoaderValue } from "../loaders/about-loader";
 import { useLoaderData } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 
-export const About: React.FC = () => {
+const About: React.FC = () => {
   const aboutPage = useLoaderData() as AboutLoaderValue;
 
   return (
@@ -59,3 +59,5 @@ export const About: React.FC = () => {
     </Box>
   );
 };
+
+export default About;

@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-export const ExclusiveDesigns: React.FC = () => {
+const ExclusiveDesigns: React.FC = () => {
   return (
     <Box width="100vw">
       <Typography
@@ -28,3 +28,5 @@ export const ExclusiveDesigns: React.FC = () => {
     </Box>
   );
 };
+
+export default ExclusiveDesigns;

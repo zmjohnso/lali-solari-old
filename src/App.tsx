@@ -1,9 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "./routes/layout";
-import { Home } from "./routes/home/home";
-import { Manifesto } from "./routes/manifesto";
-import { About } from "./routes/about";
-import { GalleryDisplay } from "./routes/gallery-display/gallery-display";
 import "@fontsource/bebas-neue";
 import "@fontsource/open-sans";
 import "@fontsource/arimo";
@@ -11,15 +7,15 @@ import "./fonts.css";
 import { HomeLoader } from "./loaders/home-loader";
 import { GalleryDisplayLoader } from "./loaders/gallery-display-loader";
 import { useStore } from "./store/store";
-import { useMemo } from "react";
+import { lazy, Suspense, useMemo } from "react";
 import { Locale } from "./shared/types";
 import { ManifestoLoader } from "./loaders/manifesto-loader";
 import { AboutLoader } from "./loaders/about-loader";
-import { ExclusiveDesigns } from "./routes/exclusive-designs";
 import { Error } from "./routes/error";
-import { Contact } from "./routes/contact";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import Spinner from "./shared/spinner";
+import Home from "./routes/home/home";
 
 const theme = createTheme({
   typography: {
@@ -32,6 +28,14 @@ const theme = createTheme({
     },
   },
 });
+
+const Manifesto = lazy(() => import("./routes/manifesto"));
+const About = lazy(() => import("./routes/about"));
+const GalleryDisplay = lazy(
+  () => import("./routes/gallery-display/gallery-display")
+);
+const ExclusiveDesigns = lazy(() => import("./routes/exclusive-designs"));
+const Contact = lazy(() => import("./routes/contact"));
 
 const router = (languageMode: Locale) =>
   createBrowserRouter([
@@ -47,27 +51,47 @@ const router = (languageMode: Locale) =>
         },
         {
           path: "manifesto",
-          element: <Manifesto />,
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <Manifesto />
+            </Suspense>
+          ),
           loader: () => ManifestoLoader(languageMode),
         },
         {
           path: "about",
-          element: <About />,
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <About />
+            </Suspense>
+          ),
           loader: () => AboutLoader(languageMode),
         },
         {
           path: "gallery/:thumbnailId",
-          element: <GalleryDisplay />,
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <GalleryDisplay />
+            </Suspense>
+          ),
           loader: ({ params }) =>
             GalleryDisplayLoader(languageMode, params.thumbnailId),
         },
         {
           path: "exclusive-designs",
-          element: <ExclusiveDesigns />,
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <ExclusiveDesigns />
+            </Suspense>
+          ),
         },
         {
           path: "contact",
-          element: <Contact />,
+          element: (
+            <Suspense fallback={<Spinner />}>
+              <Contact />
+            </Suspense>
+          ),
         },
       ],
     },

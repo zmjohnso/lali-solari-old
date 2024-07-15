@@ -3,7 +3,7 @@ import { ManifestoLoaderValue } from "../loaders/manifesto-loader";
 import { useLoaderData } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 
-export const Manifesto: React.FC = () => {
+const Manifesto: React.FC = () => {
   const manifestoPage = useLoaderData() as ManifestoLoaderValue;
 
   return (
@@ -38,3 +38,5 @@ export const Manifesto: React.FC = () => {
     </Box>
   );
 };
+
+export default Manifesto;

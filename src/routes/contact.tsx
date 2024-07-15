@@ -14,7 +14,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import { useTranslation } from "react-i18next";
 import { useForm, ValidationError } from "@formspree/react";
 
-export const Contact: React.FC = () => {
+const Contact: React.FC = () => {
   const { t } = useTranslation();
   const [state, handleSubmit] = useForm(
     import.meta.env.VITE_FORMSPREE_CONTACT_FORM
@@ -117,3 +117,5 @@ export const Contact: React.FC = () => {
     </Container>
   );
 };
+
+export default Contact;

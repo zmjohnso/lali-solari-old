@@ -14,7 +14,7 @@ import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { usePhotoLoader } from "../../hooks/usePhotoLoader";
 import { Gallery } from "./gallery";
 
-export const GalleryDisplay: React.FC = () => {
+const GalleryDisplay: React.FC = () => {
   const { mainPhoto, galleryItems } =
     useLoaderData() as GalleryDisplayLoaderValue;
   const navigate = useNavigate();
@@ -147,3 +147,5 @@ export const GalleryDisplay: React.FC = () => {
     </Box>
   );
 };
+
+export default GalleryDisplay;
