@@ -1,3 +1,4 @@
+import { Entry } from "contentful";
 import { getClient } from "../services/contentful/client";
 import { GalleryItem, Locale } from "../shared/types";
 import { extractPhotoId } from "../shared/utilities";
@@ -11,16 +12,21 @@ export const GalleryDisplayLoader = async (
     content_type: "galleryPhoto",
     locale: languageMode,
   });
-  const mainPhoto = res.items.find(
+  let mainPhoto = res.items.find(
     (x) => x.fields.thumbnail.sys.id === thumbnailId
   );
-  const galleryItems = res.items.filter(
+  const galleryItems: Entry<GalleryItem>[] = res.items.filter(
     (x) =>
       x.fields.gallery.fields.name === mainPhoto?.fields.gallery.fields.name
   );
-  const sortedGalleryItems = galleryItems.sort(
+  const sortedGalleryItems: Entry<GalleryItem>[] = galleryItems.sort(
     (a, b) => extractPhotoId(a.fields.title) - extractPhotoId(b.fields.title)
   );
+
+  if (!mainPhoto) {
+    mainPhoto = sortedGalleryItems[0];
+  }
+
   return { mainPhoto, galleryItems: sortedGalleryItems };
 };
 

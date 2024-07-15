@@ -14,6 +14,7 @@ import { extractPhotoId } from "../shared/utilities";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { Entry } from "contentful";
 import { GalleryItem } from "../shared/types";
+import { usePhotoLoader } from "../hooks/usePhotoLoader";
 
 interface GalleryProps {
   mainPhoto: Entry<GalleryItem> | undefined;
@@ -106,24 +107,16 @@ export const GalleryDisplay: React.FC = () => {
   const { mainPhoto, galleryItems } =
     useLoaderData() as GalleryDisplayLoaderValue;
   const navigate = useNavigate();
-  const [loadedMainPhoto, setLoadedMainPhoto] = useState(false);
+  const { imageLoaded } = usePhotoLoader(mainPhoto.fields.photo);
   const [currentIndex, setCurrentIndex] = useState(
-    galleryItems.findIndex((item) => item.sys.id === mainPhoto?.sys.id)
+    galleryItems.findIndex((item) => item.sys.id === mainPhoto.sys.id)
   );
 
-  const collectionName = mainPhoto?.fields.gallery.fields.name;
-  const collectionDescription = mainPhoto?.fields.gallery.fields.description;
-  const mainPhotoUrl = mainPhoto?.fields.photo.fields.file.url;
-  const mainPhotoTitle = mainPhoto?.fields.photo.fields.title;
-  const mainPhotoPaintingData = mainPhoto?.fields.paintingData;
-
-  useEffect(() => {
-    if (mainPhotoUrl) {
-      const img = new Image();
-      img.src = mainPhotoUrl;
-      img.onload = () => setLoadedMainPhoto(true);
-    }
-  }, [mainPhotoUrl]);
+  const collectionName = mainPhoto.fields.gallery.fields.name;
+  const collectionDescription = mainPhoto.fields.gallery.fields.description;
+  const mainPhotoUrl = mainPhoto.fields.photo.fields.file.url;
+  const mainPhotoTitle = mainPhoto.fields.photo.fields.title;
+  const mainPhotoPaintingData = mainPhoto.fields.paintingData;
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
@@ -176,7 +169,7 @@ export const GalleryDisplay: React.FC = () => {
           </Grid>
           <Grid item xs>
             <Box position="relative" width="100%">
-              {loadedMainPhoto ? (
+              {imageLoaded ? (
                 <TransformWrapper>
                   <TransformComponent>
                     <img

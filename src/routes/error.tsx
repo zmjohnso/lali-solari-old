@@ -1,13 +1,14 @@
 import React from "react";
 import { Box, Button, Container, Typography } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useRouteError } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 export const Error: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const error = useRouteError();
+  console.debug(error); // keep for dev purposes
   const handleBackHomeClick = () => {
     navigate("/");
   };

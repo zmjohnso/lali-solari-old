@@ -6,7 +6,7 @@ import { extractTitle } from "../shared/utilities";
 import { useTranslation } from "react-i18next";
 import { MinimumHomePage } from "../shared/types";
 import { Entry } from "contentful";
-import { usePhotoLoad } from "../hooks/usePhotoLoad";
+import { usePhotoLoader } from "../hooks/usePhotoLoader";
 
 interface PhotoGridItemProps {
   photo: Entry<MinimumHomePage>;
@@ -14,9 +14,11 @@ interface PhotoGridItemProps {
 }
 
 const PhotoGridItem: React.FC<PhotoGridItemProps> = (props) => {
+  const navigate = useNavigate();
+  const { imageLoaded } = usePhotoLoader(props.photo.fields.thumbnail);
+
   const photoUrl = props.photo.fields.thumbnail.fields.file.url;
   const photoTitle = props.photo.fields.thumbnail.fields.title;
-  const { imageLoaded } = usePhotoLoad(props.photo);
 
   return (
     <Grid
@@ -36,6 +38,21 @@ const PhotoGridItem: React.FC<PhotoGridItemProps> = (props) => {
           src={photoUrl}
           alt={photoTitle}
           loading="lazy"
+          onClick={() =>
+            navigate(`gallery/${props.photo.fields.thumbnail.sys.id}`)
+          }
+          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+          style={{
+            display: imageLoaded ? "block" : "none",
+            cursor: "pointer",
+            maxWidth: "100%",
+            maxHeight: "100%",
+            width: "auto",
+            height: "auto",
+            transition: "transform 0.3s",
+            flexShrink: 0,
+          }}
         />
       ) : (
         <Skeleton
