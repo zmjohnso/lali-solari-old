@@ -5,6 +5,7 @@ import { HomeLoaderValue } from "../../loaders/home-loader";
 import { extractTitle } from "../../shared/utilities";
 import { useTranslation } from "react-i18next";
 import { PhotoGridItem } from "./photo-grid-item";
+import { Helmet } from "react-helmet";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -154,6 +155,13 @@ const Home: React.FC = () => {
       paddingRight={{ xs: "1rem", md: "2rem" }}
       mb={4}
     >
+      <Helmet>
+        <meta
+          name="description"
+          content="Home page for Lali Solari showcasing her various collections, with links to purchase her works, learn more about her, and contact her."
+        />
+        <title>Home Page</title>
+      </Helmet>
       <Box ref={slideRefL1}>
         <Slide
           direction="left"

@@ -12,22 +12,9 @@ import { Locale } from "./shared/types";
 import { ManifestoLoader } from "./loaders/manifesto-loader";
 import { AboutLoader } from "./loaders/about-loader";
 import { Error } from "./routes/error";
-import { ThemeProvider, createTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import Spinner from "./shared/spinner";
 import Home from "./routes/home/home";
-
-const theme = createTheme({
-  typography: {
-    fontFamily: ["Open Sans", "Bebas Neue", "Bison", "Arimo"].join(","),
-    h2: {
-      fontFamily: "Bison", // Ensure Bison is used for h2 elements
-    },
-    h4: {
-      fontFamily: "Bison", // Ensure Bison is used for h4 elements
-    },
-  },
-});
 
 const Manifesto = lazy(() => import("./routes/manifesto"));
 const About = lazy(() => import("./routes/about"));
@@ -113,11 +100,7 @@ function App() {
     setLanguageMode(currentLanguage === "en" ? "en-US" : "es");
   }, [currentLanguage, i18n, setLanguageMode]);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router(languageMode)} />
-    </ThemeProvider>
-  );
+  return <RouterProvider router={router(languageMode)} />;
 }
 
 export default App;

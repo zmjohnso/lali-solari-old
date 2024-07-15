@@ -1,0 +1,3 @@
+# Allow all robots to access all pages
+user-agent: *
+disallow:
