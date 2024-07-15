@@ -8,107 +8,15 @@ import {
 } from "@mui/material";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { useEffect, useState } from "react";
-import { GalleryDisplayLoaderValue } from "../loaders/gallery-display-loader";
-import { extractPhotoId } from "../shared/utilities";
+import { useState } from "react";
+import { GalleryDisplayLoaderValue } from "../../loaders/gallery-display-loader";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
-import { Entry } from "contentful";
-import { GalleryItem } from "../shared/types";
-import { usePhotoLoader } from "../hooks/usePhotoLoader";
-
-interface GalleryProps {
-  mainPhoto: Entry<GalleryItem> | undefined;
-  galleryItems: Entry<GalleryItem>[];
-}
-
-const Gallery: React.FC<GalleryProps> = ({ mainPhoto, galleryItems }) => {
-  const navigate = useNavigate();
-  const itemsToShow = 5;
-
-  const photoId = extractPhotoId(mainPhoto?.fields.title || "");
-  const initialIndex = Math.floor(photoId / itemsToShow) * itemsToShow;
-
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
-
-  useEffect(() => {
-    const newPhotoId = extractPhotoId(mainPhoto?.fields.title || "");
-    setCurrentIndex(Math.floor(newPhotoId / itemsToShow) * itemsToShow);
-  }, [mainPhoto, itemsToShow]);
-
-  const handlePrevious = () => {
-    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex < galleryItems.length - itemsToShow ? prevIndex + 1 : prevIndex
-    );
-  };
-
-  const visibleImages = galleryItems.slice(
-    currentIndex,
-    currentIndex + itemsToShow
-  );
-
-  return (
-    <Grid container alignItems="center">
-      {galleryItems.length > itemsToShow && (
-        <Grid item>
-          <IconButton onClick={handlePrevious} disabled={currentIndex === 0}>
-            <ArrowBack />
-          </IconButton>
-        </Grid>
-      )}
-      <Grid item xs>
-        <Grid container spacing={2}>
-          {visibleImages.map((item) => (
-            <Grid
-              item
-              xs={12 / itemsToShow}
-              key={item.fields.thumbnail.fields.title}
-              display="flex"
-              alignItems="center"
-            >
-              <img
-                src={item.fields.thumbnail.fields.file.url}
-                alt={item.fields.thumbnail.fields.title}
-                style={{
-                  width: "100%",
-                  cursor: "pointer",
-                  transition: "transform 0.3s",
-                }}
-                onClick={() =>
-                  navigate(`/gallery/${item.fields.thumbnail.sys.id}`)
-                }
-                onMouseOver={(e) =>
-                  (e.currentTarget.style.transform = "scale(1.05)")
-                }
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.transform = "scale(1)")
-                }
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </Grid>
-      {galleryItems.length > itemsToShow && (
-        <Grid item>
-          <IconButton
-            onClick={handleNext}
-            disabled={currentIndex >= galleryItems.length - itemsToShow}
-          >
-            <ArrowForward />
-          </IconButton>
-        </Grid>
-      )}
-    </Grid>
-  );
-};
+import { usePhotoLoader } from "../../hooks/usePhotoLoader";
+import { Gallery } from "./gallery";
 
 export const GalleryDisplay: React.FC = () => {
   const { mainPhoto, galleryItems } =
     useLoaderData() as GalleryDisplayLoaderValue;
-  console.log({ mainPhoto });
   const navigate = useNavigate();
   const { imageLoaded } = usePhotoLoader(mainPhoto?.fields.photo);
   const [currentIndex, setCurrentIndex] = useState(

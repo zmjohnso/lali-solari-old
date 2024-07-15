@@ -1,70 +1,10 @@
-import { Box, Typography, Grid, Slide, Skeleton } from "@mui/material";
+import { Box, Typography, Grid, Slide } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { HomeLoaderValue } from "../loaders/home-loader";
-import { extractTitle } from "../shared/utilities";
+import { HomeLoaderValue } from "../../loaders/home-loader";
+import { extractTitle } from "../../shared/utilities";
 import { useTranslation } from "react-i18next";
-import { MinimumHomePage } from "../shared/types";
-import { Entry } from "contentful";
-import { usePhotoLoader } from "../hooks/usePhotoLoader";
-
-interface PhotoGridItemProps {
-  photo: Entry<MinimumHomePage>;
-  columns: number;
-}
-
-const PhotoGridItem: React.FC<PhotoGridItemProps> = (props) => {
-  const navigate = useNavigate();
-  const { imageLoaded } = usePhotoLoader(props.photo.fields.thumbnail);
-
-  const photoUrl = props.photo.fields.thumbnail.fields.file.url;
-  const photoTitle = props.photo.fields.thumbnail.fields.title;
-
-  return (
-    <Grid
-      key={photoTitle}
-      item
-      xs={12 / props.columns}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {imageLoaded ? (
-        <img
-          height="auto"
-          width="100%"
-          src={photoUrl}
-          alt={photoTitle}
-          loading="lazy"
-          onClick={() =>
-            navigate(`gallery/${props.photo.fields.thumbnail.sys.id}`)
-          }
-          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
-          style={{
-            display: imageLoaded ? "block" : "none",
-            cursor: "pointer",
-            maxWidth: "100%",
-            maxHeight: "100%",
-            width: "auto",
-            height: "auto",
-            transition: "transform 0.3s",
-            flexShrink: 0,
-          }}
-        />
-      ) : (
-        <Skeleton
-          variant="rectangular"
-          width="100%"
-          height="auto"
-          sx={{ paddingTop: "75%" }}
-        />
-      )}
-    </Grid>
-  );
-};
+import { PhotoGridItem } from "./photo-grid-item";
 
 export const Home: React.FC = () => {
   const { t } = useTranslation();

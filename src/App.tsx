@@ -1,9 +1,9 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "./routes/layout";
-import { Home } from "./routes/home";
+import { Home } from "./routes/home/home";
 import { Manifesto } from "./routes/manifesto";
 import { About } from "./routes/about";
-import { GalleryDisplay } from "./routes/gallery-display";
+import { GalleryDisplay } from "./routes/gallery-display/gallery-display";
 import "@fontsource/bebas-neue";
 import "@fontsource/open-sans";
 import "@fontsource/arimo";
