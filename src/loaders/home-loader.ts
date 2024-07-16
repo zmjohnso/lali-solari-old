@@ -10,7 +10,7 @@ export const HomeLoader = async (languageMode: Locale) => {
   });
 
   const sortedItems = res.items.sort(
-    (a, b) => extractPhotoId(a.fields.title) - extractPhotoId(b.fields.title)
+    (a, b) => extractPhotoId(a.fields.title) - extractPhotoId(b.fields.title),
   );
   return sortedItems;
 };

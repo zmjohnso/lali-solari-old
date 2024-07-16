@@ -21,16 +21,16 @@ const Home: React.FC = () => {
   const slideRefContact = useRef(null);
 
   const arPhotos = homePage.filter(
-    (x) => extractTitle(x.fields.title) === t("home.abstractReverberations")
+    (x) => extractTitle(x.fields.title) === t("home.abstractReverberations"),
   );
   const symbiosisPhotos = homePage.filter(
-    (x) => extractTitle(x.fields.title) === t("home.symbiosis")
+    (x) => extractTitle(x.fields.title) === t("home.symbiosis"),
   );
   const pandemicPhotos = homePage.filter(
-    (x) => extractTitle(x.fields.title) === t("home.pandemic")
+    (x) => extractTitle(x.fields.title) === t("home.pandemic"),
   );
   const rootsPhotos = homePage.filter(
-    (x) => extractTitle(x.fields.title) === t("home.roots")
+    (x) => extractTitle(x.fields.title) === t("home.roots"),
   );
 
   const abstractReverberationsName =
@@ -45,7 +45,7 @@ const Home: React.FC = () => {
     window.open(
       "https://www.etsy.com/es/shop/Lalisolariart",
       "_blank",
-      "noopener noreferrer"
+      "noopener noreferrer",
     );
   };
 
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
           }
         });
       },
-      { threshold: 0.9 } // You can adjust the threshold to control when the animation starts
+      { threshold: 0.9 }, // You can adjust the threshold to control when the animation starts
     );
 
     if (slideRefL1.current) {
@@ -83,7 +83,7 @@ const Home: React.FC = () => {
           }
         });
       },
-      { threshold: 0.9 } // You can adjust the threshold to control when the animation starts
+      { threshold: 0.9 }, // You can adjust the threshold to control when the animation starts
     );
 
     if (slideRefL2.current) {
@@ -107,7 +107,7 @@ const Home: React.FC = () => {
           }
         });
       },
-      { threshold: 0.9 } // You can adjust the threshold to control when the animation starts
+      { threshold: 0.9 }, // You can adjust the threshold to control when the animation starts
     );
 
     if (slideRefED.current) {
@@ -131,7 +131,7 @@ const Home: React.FC = () => {
           }
         });
       },
-      { threshold: 0.9 } // You can adjust the threshold to control when the animation starts
+      { threshold: 0.9 }, // You can adjust the threshold to control when the animation starts
     );
 
     if (slideRefContact.current) {

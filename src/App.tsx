@@ -19,7 +19,7 @@ import { useStore } from "./store/store";
 const Manifesto = lazy(() => import("./routes/manifesto"));
 const About = lazy(() => import("./routes/about"));
 const GalleryDisplay = lazy(
-  () => import("./routes/gallery-display/gallery-display")
+  () => import("./routes/gallery-display/gallery-display"),
 );
 const ExclusiveDesigns = lazy(() => import("./routes/exclusive-designs"));
 const Contact = lazy(() => import("./routes/contact"));

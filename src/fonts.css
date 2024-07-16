@@ -1,7 +1,7 @@
 @font-face {
-    font-family: 'Bison';
-    src: url('assets/fonts/Bison-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap; /* Use 'swap' to prevent FOIT */
+  font-family: "Bison";
+  src: url("assets/fonts/Bison-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap; /* Use 'swap' to prevent FOIT */
 }

@@ -17,7 +17,7 @@ import { useForm, ValidationError } from "@formspree/react";
 const Contact: React.FC = () => {
   const { t } = useTranslation();
   const [state, handleSubmit] = useForm(
-    import.meta.env.VITE_FORMSPREE_CONTACT_FORM
+    import.meta.env.VITE_FORMSPREE_CONTACT_FORM,
   );
 
   const emailAddress = "hola@lalisolari.com";

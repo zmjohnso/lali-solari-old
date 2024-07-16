@@ -34,13 +34,13 @@ export const Gallery: React.FC<GalleryProps> = ({
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex < galleryItems.length - itemsToShow ? prevIndex + 1 : prevIndex
+      prevIndex < galleryItems.length - itemsToShow ? prevIndex + 1 : prevIndex,
     );
   };
 
   const visibleImages = galleryItems.slice(
     currentIndex,
-    currentIndex + itemsToShow
+    currentIndex + itemsToShow,
   );
 
   return (

@@ -1,11 +1,11 @@
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import {
-    Box,
-    Grid,
-    IconButton,
-    Skeleton,
-    Stack,
-    Typography,
+  Box,
+  Grid,
+  IconButton,
+  Skeleton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
@@ -22,8 +22,8 @@ const GalleryDisplay: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(
     galleryItems.findIndex(
       (item) =>
-        item.fields.thumbnail.sys.id === mainPhoto?.fields.thumbnail.sys.id
-    )
+        item.fields.thumbnail.sys.id === mainPhoto?.fields.thumbnail.sys.id,
+    ),
   );
 
   const collectionName = mainPhoto?.fields.gallery.fields.name;
@@ -36,7 +36,7 @@ const GalleryDisplay: React.FC = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 1);
       navigate(
-        `/gallery/${galleryItems[currentIndex - 1].fields.thumbnail.sys.id}`
+        `/gallery/${galleryItems[currentIndex - 1].fields.thumbnail.sys.id}`,
       );
     }
   };
@@ -45,7 +45,7 @@ const GalleryDisplay: React.FC = () => {
     if (currentIndex < galleryItems.length - 1) {
       setCurrentIndex((prevIndex) => prevIndex + 1);
       navigate(
-        `/gallery/${galleryItems[currentIndex + 1].fields.thumbnail.sys.id}`
+        `/gallery/${galleryItems[currentIndex + 1].fields.thumbnail.sys.id}`,
       );
     }
   };

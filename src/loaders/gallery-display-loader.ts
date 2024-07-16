@@ -5,7 +5,7 @@ import { extractPhotoId } from "../shared/utilities";
 
 export const GalleryDisplayLoader = async (
   languageMode: Locale,
-  thumbnailId: string | undefined
+  thumbnailId: string | undefined,
 ) => {
   const client = getClient();
   const res = await client.getEntries<GalleryItem>({
@@ -13,14 +13,14 @@ export const GalleryDisplayLoader = async (
     locale: languageMode,
   });
   const mainPhoto = res.items.find(
-    (x) => x.fields.thumbnail.sys.id === thumbnailId
+    (x) => x.fields.thumbnail.sys.id === thumbnailId,
   );
   const galleryItems: Entry<GalleryItem>[] = res.items.filter(
     (x) =>
-      x.fields.gallery.fields.name === mainPhoto?.fields.gallery.fields.name
+      x.fields.gallery.fields.name === mainPhoto?.fields.gallery.fields.name,
   );
   const sortedGalleryItems: Entry<GalleryItem>[] = galleryItems.sort(
-    (a, b) => extractPhotoId(a.fields.title) - extractPhotoId(b.fields.title)
+    (a, b) => extractPhotoId(a.fields.title) - extractPhotoId(b.fields.title),
   );
 
   return { mainPhoto, galleryItems: sortedGalleryItems };

@@ -31,7 +31,7 @@ export const Layout: React.FC = () => {
     setTranslateMenuAnchorEl(null);
   };
   const handleTranslateMenuClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     setTranslateMenuAnchorEl(event.currentTarget);
   };
@@ -40,7 +40,7 @@ export const Layout: React.FC = () => {
     window.open(
       "https://www.instagram.com/lalisolariart/",
       "_blank",
-      "noopener noreferrer"
+      "noopener noreferrer",
     );
   };
 
