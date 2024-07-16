@@ -20,6 +20,9 @@ i18n
       en: {
         translation: {
           home: {
+            metaDescription:
+              "Home page for Lali Solari showcasing her various collections, with links to purchase her works, learn more about her, and contact her.",
+            pageTitle: "Home Page",
             manifesto: "Manifesto",
             abstractReverberations: "Abstract Reverberations",
             symbiosis: "Symbiosis",
@@ -46,6 +49,9 @@ i18n
       es: {
         translation: {
           home: {
+            metaDescription:
+              "Página principal de Lali Solari que muestra sus diversas colecciones, con enlaces para comprar sus obras, obtener más información sobre ella y contactarla.",
+            pageTitle: "Página Principal",
             manifesto: "Manifiesto",
             abstractReverberations: "Abstract Reverberations",
             symbiosis: "Simbiosis",

@@ -156,11 +156,8 @@ const Home: React.FC = () => {
       mb={4}
     >
       <Helmet>
-        <meta
-          name="description"
-          content="Home page for Lali Solari showcasing her various collections, with links to purchase her works, learn more about her, and contact her."
-        />
-        <title>Home Page</title>
+        <meta name="description" content={t("metaDescription")} />
+        <title>{t("pageTitle")}</title>
       </Helmet>
       <Box ref={slideRefL1}>
         <Slide
