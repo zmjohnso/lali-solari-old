@@ -1,17 +1,17 @@
-import {
-  Box,
-  Grid,
-  IconButton,
-  Skeleton,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { useLoaderData, useNavigate } from "react-router-dom";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import {
+    Box,
+    Grid,
+    IconButton,
+    Skeleton,
+    Stack,
+    Typography,
+} from "@mui/material";
 import { useState } from "react";
-import { GalleryDisplayLoaderValue } from "../../loaders/gallery-display-loader";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { usePhotoLoader } from "../../hooks/usePhotoLoader";
+import { GalleryDisplayLoaderValue } from "../../loaders/gallery-display-loader";
 import { Gallery } from "./gallery";
 
 const GalleryDisplay: React.FC = () => {

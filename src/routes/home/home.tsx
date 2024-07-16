@@ -1,11 +1,11 @@
-import { Box, Typography, Grid, Slide } from "@mui/material";
-import { useState, useEffect, useRef } from "react";
+import { Box, Grid, Slide, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { HomeLoaderValue } from "../../loaders/home-loader";
 import { extractTitle } from "../../shared/utilities";
-import { useTranslation } from "react-i18next";
 import { PhotoGridItem } from "./photo-grid-item";
-import { Helmet } from "react-helmet";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
