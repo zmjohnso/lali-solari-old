@@ -31,16 +31,16 @@ export const Layout: React.FC = () => {
     setTranslateMenuAnchorEl(null);
   };
   const handleTranslateMenuClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     setTranslateMenuAnchorEl(event.currentTarget);
   };
 
   const handleInstagramClick = () => {
     window.open(
-      "https://www.instagram.com/lalisolariart/",
+      "https://www.instagram.com/solarilali/",
       "_blank",
-      "noopener noreferrer",
+      "noopener noreferrer"
     );
   };
 
